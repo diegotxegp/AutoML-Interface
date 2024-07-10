@@ -2,7 +2,7 @@
 
 !.gitignore
 
-!Code/
-!Datasets/
+!Code/**
+!Datasets/**
 
 !requirements.txt
