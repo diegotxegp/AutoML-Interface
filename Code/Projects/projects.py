@@ -9,14 +9,14 @@ from datetime import datetime
 PROJECTS_DIR = "Projects"
 
 class Project:
-    def __init__(self, title, description='', directory='', created_at=None):
-        self.title = title
+    def __init__(self, name, description='', directory='', created_at=None):
+        self.name = name
         self.description = description
         self.directory = directory
         self.created_at = created_at if created_at else datetime.now()
 
     def __repr__(self):
-        return f"Project(title={self.title}, description={self.description}, directory={self.directory}, created_at={self.created_at})"
+        return f"Project(name={self.name}, description={self.description}, directory={self.directory}, created_at={self.created_at})"
 
 class ProjectManager(tk.Frame):
     def __init__(self, parent, main_app):
@@ -49,21 +49,21 @@ class ProjectManager(tk.Frame):
                         description = file.read().strip()
                 created_at = datetime.fromtimestamp(os.path.getctime(project_path))
                 project = Project(
-                    title=project_dir,
+                    name=project_dir,
                     description=description,
                     directory=project_path,
                     created_at=created_at
                 )
                 self.projects.append(project)
-                self.project_listbox.insert(tk.END, project.title)
+                self.project_listbox.insert(tk.END, project.name)
 
     def select_project(self):
-        selected_title = self.project_listbox.get(tk.ACTIVE)
-        selected_project = next((proj for proj in self.projects if proj.title == selected_title), None)
+        selected_name = self.project_listbox.get(tk.ACTIVE)
+        selected_project = next((proj for proj in self.projects if proj.name == selected_name), None)
         if selected_project:
             self.main_app.set_selected_project(selected_project)
             messagebox.showinfo("Project Selected",
-                                f"Title: {selected_project.title}\n"
+                                f"Name: {selected_project.name}\n"
                                 f"Description: {selected_project.description}\n"
                                 f"Directory: {selected_project.directory}\n"
                                 f"Created At: {selected_project.created_at}")
