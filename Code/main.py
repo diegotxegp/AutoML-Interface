@@ -48,14 +48,37 @@ class MainApp(tk.Tk):
         self.notebook.add(self.projects_tab, text="Projects")
 
         # Datasets tab
-        self.datasets_tab = DatasetManager(self.notebook)
+        self.datasets_tab = DatasetManager(self.notebook, self)
         self.notebook.add(self.datasets_tab, text="Datasets")
         self.update_dataset_tab()
 
-        # Add 7 more tabs
-        for i in range(2, 9):
-            frame = tk.Frame(self.notebook)
-            self.notebook.add(frame, text=f"Tab {i+1}")
+        # Preprocess tab
+        frame = tk.Frame(self.notebook)
+        self.notebook.add(frame, text="Preprocess")
+
+        # Train tab
+        frame = tk.Frame(self.notebook)
+        self.notebook.add(frame, text="Train")
+
+        # Metrics tab
+        frame = tk.Frame(self.notebook)
+        self.notebook.add(frame, text="Metrics")
+
+        # Model tab
+        frame = tk.Frame(self.notebook)
+        self.notebook.add(frame, text="Model")
+
+        # Test tab
+        frame = tk.Frame(self.notebook)
+        self.notebook.add(frame, text="Test")
+
+        # Predict tab
+        frame = tk.Frame(self.notebook)
+        self.notebook.add(frame, text="Predict")
+
+        # Results tab
+        frame = tk.Frame(self.notebook)
+        self.notebook.add(frame, text="Results")
 
     def update_dataset_tab(self):
         """
