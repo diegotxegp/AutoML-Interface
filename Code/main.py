@@ -16,9 +16,11 @@ class MainApp(tk.Tk):
 
         # Variable to store the selected project
         self.selected_project = None
+        # Variable to store the selected dataset
+        self.selected_dataset = None
 
         # Create the menu
-        self.create_menu()
+        self.create_menu_bar()
 
         # Create the notebook (tab container)
         self.notebook = ttk.Notebook(self)
@@ -26,22 +28,10 @@ class MainApp(tk.Tk):
 
         # Create the tabs
         self.create_tabs()
-
-    def create_menu(self):
-        """
-        Create the menu bar with dropdown options.
-        """
-        menu_bar = tk.Menu(self)
-        self.config(menu=menu_bar)
-
-        # Help menu
-        help_menu = tk.Menu(menu_bar, tearoff=0)
-        menu_bar.add_cascade(label="Help", menu=help_menu)
-        help_menu.add_command(label="About", command=self.show_about)
     
     def create_tabs(self):
         """
-        Create all the tabs
+        Create all the tabs (Projects, Datasets, Preprocess...)
         """
         # Projects tab
         self.projects_tab = ProjectManager(self.notebook, self)
@@ -50,7 +40,6 @@ class MainApp(tk.Tk):
         # Datasets tab
         self.datasets_tab = DatasetManager(self.notebook, self)
         self.notebook.add(self.datasets_tab, text="Datasets")
-        self.update_dataset_tab()
 
         # Preprocess tab
         frame = tk.Frame(self.notebook)
@@ -80,6 +69,13 @@ class MainApp(tk.Tk):
         frame = tk.Frame(self.notebook)
         self.notebook.add(frame, text="Results")
 
+    def set_selected_project(self, project):
+        """
+        Set project to work
+        """
+        self.selected_project = project
+        self.datasets_tab.load_datasets(self.selected_project)
+
     def update_dataset_tab(self):
         """
         Update dataset tab according to the project selected.
@@ -103,22 +99,29 @@ class MainApp(tk.Tk):
                     label = tk.Label(self.datasets_tab, text="No datasets found in 'Datasets' folder.")
                     label.pack(pady=10)
             else:
-                label = tk.Label(self.datasets_tab, text="Datasets folder does not exist.")
+                label = tk.Label(self.datasets_tab, text="Datasets folder does not exist for this project.")
                 label.pack(pady=10)
         else:
             label = tk.Label(self.datasets_tab, text="No project selected.")
             label.pack(pady=10)
 
-    def set_selected_project(self, project):
+    def create_menu_bar(self):
         """
-        Set the project to work
+        Create the menu bar with dropdown options.
         """
-        self.selected_project = project
-        self.update_dataset_tab()
+        menu_bar = tk.Menu(self)
+        self.config(menu=menu_bar)
+
+        # Help menu
+        help_menu = tk.Menu(menu_bar, tearoff=0)
+        menu_bar.add_cascade(label="Help", menu=help_menu)
+        help_menu.add_command(label="About", command=self.show_about)
 
     def show_about(self):
         tk.messagebox.showinfo("About", "AutoML-Interface v2.0\nDeveloped by Diego\n2024")
 
+
+# Main
 def main():
     app = MainApp()
     app.mainloop()
