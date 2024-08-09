@@ -9,14 +9,26 @@ from datetime import datetime
 PROJECTS_DIR = "Projects"
 
 class Project:
-    def __init__(self, name, description='', directory='', created_at=None):
+    def __init__(self, name, description='', path='', created_at=None):
         self.name = name
         self.description = description
-        self.directory = directory
+        self.path = path
         self.created_at = created_at if created_at else datetime.now()
 
     def __repr__(self):
-        return f"Project(name={self.name}, description={self.description}, directory={self.directory}, created_at={self.created_at})"
+        return f"Project(name={self.name}, description={self.description}, directory={self.path}, created_at={self.created_at})"
+    
+    def get_name(self):
+        return self.name
+    
+    def get_description(self):
+        return self.description
+    
+    def get_path(self):
+        return self.path
+    
+    def get_created_at(self):
+        return self.created_at
 
 class ProjectManager(tk.Frame):
     def __init__(self, parent, main_app):
@@ -60,7 +72,7 @@ class ProjectManager(tk.Frame):
                 project = Project(
                     name=project_dir,
                     description=description,
-                    directory=project_path,
+                    path=project_path,
                     created_at=created_at
                 )
 
@@ -81,33 +93,26 @@ class ProjectManager(tk.Frame):
             messagebox.showinfo("Project Selected",
                                 f"Name: {selected_project.name}\n"
                                 f"Description: {selected_project.description}\n"
-                                f"Directory: {selected_project.directory}\n"
+                                f"Path: {selected_project.path}\n"
                                 f"Created At: {selected_project.created_at}")
         else:
             messagebox.showwarning("Warning", "Please select a project.")
 
     def create_new_project(self):
-        """
-        Create a new project folder
-        """
         new_project_name = simpledialog.askstring("New Project", "Enter the name of the new project:", parent=self)
 
         if new_project_name:
+            new_project_desc = self.ask_description()
             new_project_path = os.path.join(PROJECTS_DIR, new_project_name)
-
+            
             if not os.path.exists(new_project_path):
                 os.makedirs(new_project_path)
-
-                new_project_description = self.ask_description()
-                if new_project_description:
-                    description_file_path = os.path.join(new_project_path, "description.txt")
-                    with open(description_file_path, "w") as desc_file:
-                        desc_file.write(new_project_description)
-
+                if new_project_desc:
+                    desc_file_path = os.path.join(new_project_path, "description.txt")
+                    with open(desc_file_path, "w") as desc_file:
+                        desc_file.write(new_project_desc)
                 self.load_projects()
-
                 messagebox.showinfo("Project Created", f"The project '{new_project_name}' has been created at: {new_project_path}")
-
             else:
                 messagebox.showerror("Error", "A project with that name already exists.")
 
@@ -119,21 +124,22 @@ class ProjectManager(tk.Frame):
         description_window.title("Project Description")
         description_window.geometry("400x300+100+100")  # Open description window at (100, 100) on the screen
 
-        desc_label = tk.Label(description_window, text="Enter the description of the new project:")
-        desc_label.pack(pady=10)
+        description_label = tk.Label(description_window, text="Enter the description of the new project:")
+        description_label.pack(pady=10)
 
-        desc_text = Text(description_window, height=10)
-        desc_text.pack(fill=tk.BOTH, expand=True)
+        description_text = Text(description_window, height=10)
+        description_text.pack(fill=tk.BOTH, expand=True)
+
+        def on_ok():
+            self.project_description = description_text.get("1.0", tk.END).strip()
+            description_window.destroy()
 
         button_frame = tk.Frame(description_window)
         button_frame.pack(fill=tk.X)
-
-        def on_ok():
-            self.project_desc = desc_text.get("1.0", tk.END).strip()
-            description_window.destroy()
 
         ok_button = tk.Button(button_frame, text="OK", command=on_ok)
         ok_button.pack(pady=10)
 
         self.wait_window(description_window) # Wait until description completed
 
+        return getattr(self, 'project_description', '')

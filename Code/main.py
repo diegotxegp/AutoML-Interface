@@ -69,12 +69,24 @@ class MainApp(tk.Tk):
         frame = tk.Frame(self.notebook)
         self.notebook.add(frame, text="Results")
 
+    def get_selected_project(self):
+        return self.selected_project
+
     def set_selected_project(self, project):
         """
         Set project to work
         """
         self.selected_project = project
         self.datasets_tab.load_datasets(self.selected_project)
+
+    def get_selected_dataset(self):
+        return self.selected_dataset
+
+    def set_selected_dataset(self, dataset):
+        """
+        Set dataset to work
+        """
+        self.selected_dataset = dataset
 
     def update_dataset_tab(self):
         """
@@ -84,7 +96,7 @@ class MainApp(tk.Tk):
             widget.destroy()
         
         if self.selected_project:
-            datasets_dir = os.path.join(self.selected_project.directory, "Datasets")
+            datasets_dir = os.path.join(self.selected_project.path, "Datasets")
 
             if os.path.exists(datasets_dir) and os.path.isdir(datasets_dir):
                 dataset_listbox = tk.Listbox(self.datasets_tab)
