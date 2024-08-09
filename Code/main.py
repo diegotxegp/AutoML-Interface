@@ -1,14 +1,13 @@
-# File: Code/main.py
-
 import os
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 from Projects.projects import ProjectManager
 from Datasets.datasets import DatasetManager
+from Preprocess.preprocess import Preprocess
 
 class MainApp(tk.Tk):
-
+    
     def __init__(self):
         super().__init__()
         self.title("AutoML-Interface")
@@ -33,41 +32,22 @@ class MainApp(tk.Tk):
         """
         Create all the tabs (Projects, Datasets, Preprocess...)
         """
-        # Projects tab
-        self.projects_tab = ProjectManager(self.notebook, self)
-        self.notebook.add(self.projects_tab, text="Projects")
+        # Project tab
+        self.project_tab = ProjectManager(self.notebook, self)
+        self.notebook.add(self.project_tab, text="Projects")
 
-        # Datasets tab
-        self.datasets_tab = DatasetManager(self.notebook, self)
-        self.notebook.add(self.datasets_tab, text="Datasets")
+        # Dataset tab
+        self.dataset_tab = DatasetManager(self.notebook, self)
+        self.notebook.add(self.dataset_tab, text="Datasets")
 
-        # Preprocess tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Preprocess")
+        #Preprocess tab
+        self.preprocess_tab = Preprocess(self.notebook, self)
+        self.notebook.add(self.preprocess_tab, text="Preprocess")
 
-        # Train tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Train")
-
-        # Metrics tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Metrics")
-
-        # Model tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Model")
-
-        # Test tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Test")
-
-        # Predict tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Predict")
-
-        # Results tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Results")
+        # Additional tabs
+        for tab_name in ["Train", "Metrics", "Model", "Test", "Predict", "Results"]:
+            frame = tk.Frame(self.notebook)
+            self.notebook.add(frame, text=tab_name)
 
     def get_selected_project(self):
         return self.selected_project
@@ -77,7 +57,7 @@ class MainApp(tk.Tk):
         Set project to work
         """
         self.selected_project = project
-        self.datasets_tab.load_datasets(self.selected_project)
+        self.dataset_tab.load_datasets(self.selected_project)
 
     def get_selected_dataset(self):
         return self.selected_dataset
@@ -92,14 +72,14 @@ class MainApp(tk.Tk):
         """
         Update dataset tab according to the project selected.
         """
-        for widget in self.datasets_tab.winfo_children():
+        for widget in self.dataset_tab.winfo_children():
             widget.destroy()
         
         if self.selected_project:
             datasets_dir = os.path.join(self.selected_project.path, "Datasets")
 
             if os.path.exists(datasets_dir) and os.path.isdir(datasets_dir):
-                dataset_listbox = tk.Listbox(self.datasets_tab)
+                dataset_listbox = tk.Listbox(self.dataset_tab)
                 dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
                 datasets = os.listdir(datasets_dir)
@@ -108,13 +88,13 @@ class MainApp(tk.Tk):
                     for dataset in datasets:
                         dataset_listbox.insert(tk.END, dataset)
                 else:
-                    label = tk.Label(self.datasets_tab, text="No datasets found in 'Datasets' folder.")
+                    label = tk.Label(self.dataset_tab, text="No datasets found in 'Datasets' folder.")
                     label.pack(pady=10)
             else:
-                label = tk.Label(self.datasets_tab, text="Datasets folder does not exist for this project.")
+                label = tk.Label(self.dataset_tab, text="Datasets folder does not exist for this project.")
                 label.pack(pady=10)
         else:
-            label = tk.Label(self.datasets_tab, text="No project selected.")
+            label = tk.Label(self.dataset_tab, text="No project selected.")
             label.pack(pady=10)
 
     def create_menu_bar(self):
@@ -130,7 +110,7 @@ class MainApp(tk.Tk):
         help_menu.add_command(label="About", command=self.show_about)
 
     def show_about(self):
-        tk.messagebox.showinfo("About", "AutoML-Interface v2.0\nDeveloped by Diego\n2024")
+        messagebox.showinfo("About", "AutoML-Interface v2.0\nDeveloped by Diego\n2024")
 
 
 # Main

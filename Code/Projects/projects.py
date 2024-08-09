@@ -1,5 +1,3 @@
-# File: Code/Projects/projects.py
-
 import os
 import tkinter as tk
 from tkinter import simpledialog, messagebox, Text
@@ -9,14 +7,14 @@ from datetime import datetime
 PROJECTS_DIR = "Projects"
 
 class Project:
-    def __init__(self, name, description='', path='', created_at=None):
+    def __init__(self, name, description, path, timestamp=None):
         self.name = name
         self.description = description
         self.path = path
-        self.created_at = created_at if created_at else datetime.now()
+        self.timestamp = timestamp if timestamp else datetime.now()
 
     def __repr__(self):
-        return f"Project(name={self.name}, description={self.description}, directory={self.path}, created_at={self.created_at})"
+        return f"Project(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
     
     def get_name(self):
         return self.name
@@ -27,15 +25,14 @@ class Project:
     def get_path(self):
         return self.path
     
-    def get_created_at(self):
-        return self.created_at
+    def get_timestamp(self):
+        return self.timestamp
 
 class ProjectManager(tk.Frame):
     def __init__(self, parent, main_app):
         super().__init__(parent)
 
         self.main_app = main_app  # Reference to the main application
-
         self.projects = []
 
         self.project_listbox = tk.Listbox(self)
@@ -57,31 +54,56 @@ class ProjectManager(tk.Frame):
         self.projects.clear()
 
         if os.path.exists(PROJECTS_DIR):
-            project_dirs = os.listdir(PROJECTS_DIR)
-            sorted_dirs = sorted(project_dirs)
+            project_dirs = sorted(os.listdir(PROJECTS_DIR))
 
-            for project_dir in sorted_dirs:
+            for project_dir in project_dirs:
                 project_path = os.path.join(PROJECTS_DIR, project_dir)
+
                 description_file = os.path.join(project_path, 'description.txt')
                 description = ''
                 if os.path.exists(description_file):
                     with open(description_file, 'r') as file:
                         description = file.read().strip()
-                created_at = datetime.fromtimestamp(os.path.getctime(project_path))
+                        
+                timestamp = datetime.fromtimestamp(os.path.getctime(project_path))
 
                 project = Project(
                     name=project_dir,
                     description=description,
                     path=project_path,
-                    created_at=created_at
+                    timestamp=timestamp
                 )
 
                 self.projects.append(project)
                 self.project_listbox.insert(tk.END, project.name)
 
+    def create_new_project(self):
+        """
+        Create a new project along with a brief description.
+        """
+        new_project_name = simpledialog.askstring("New Project", "Enter the name of the new project:", parent=self)
+
+        if new_project_name:
+            new_project_path = os.path.join(PROJECTS_DIR, new_project_name)
+
+            if not os.path.exists(new_project_path):
+                os.makedirs(new_project_path)
+
+                new_project_description = self.ask_description()
+                if new_project_description:
+                    description_file_path = os.path.join(new_project_path, "description.txt")
+                    with open(description_file_path, "w") as desc_file:
+                        desc_file.write(new_project_description)
+
+                messagebox.showinfo("Project Created", f"The project '{new_project_name}' has been created at: {new_project_path}")
+
+                self.load_projects()
+            else:
+                messagebox.showerror("Error", "A project with that name already exists.")
+
     def select_project(self):
         """
-        Select the project chosen in the list of projects
+        Select the project chosen in the list of projects.
         """
         selected_index = self.project_listbox.curselection()
 
@@ -94,27 +116,9 @@ class ProjectManager(tk.Frame):
                                 f"Name: {selected_project.name}\n"
                                 f"Description: {selected_project.description}\n"
                                 f"Path: {selected_project.path}\n"
-                                f"Created At: {selected_project.created_at}")
+                                f"Timestamp: {selected_project.timestamp}")
         else:
             messagebox.showwarning("Warning", "Please select a project.")
-
-    def create_new_project(self):
-        new_project_name = simpledialog.askstring("New Project", "Enter the name of the new project:", parent=self)
-
-        if new_project_name:
-            new_project_desc = self.ask_description()
-            new_project_path = os.path.join(PROJECTS_DIR, new_project_name)
-            
-            if not os.path.exists(new_project_path):
-                os.makedirs(new_project_path)
-                if new_project_desc:
-                    desc_file_path = os.path.join(new_project_path, "description.txt")
-                    with open(desc_file_path, "w") as desc_file:
-                        desc_file.write(new_project_desc)
-                self.load_projects()
-                messagebox.showinfo("Project Created", f"The project '{new_project_name}' has been created at: {new_project_path}")
-            else:
-                messagebox.showerror("Error", "A project with that name already exists.")
 
     def ask_description(self):
         """
@@ -140,6 +144,6 @@ class ProjectManager(tk.Frame):
         ok_button = tk.Button(button_frame, text="OK", command=on_ok)
         ok_button.pack(pady=10)
 
-        self.wait_window(description_window) # Wait until description completed
+        self.wait_window(description_window)  # Wait until description is completed
 
         return getattr(self, 'project_description', '')
