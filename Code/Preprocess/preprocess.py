@@ -1,14 +1,14 @@
 import os
 import tkinter as tk
-from tkinter import messagebox, filedialog, Text
+from tkinter import messagebox, filedialog, Text, ttk
 from datetime import datetime
 
 class Configuration:
-    def __init__(self, name, description, path, dataset, timestamp=None):
+    def __init__(self, name, description, path, related_dataset, timestamp=None):
         self.name = name
         self.description = description
         self.path = path
-        self.related_dataset = dataset
+        self.related_dataset = related_dataset
         self.timestamp = timestamp if timestamp else datetime.now()
 
 
@@ -21,3 +21,19 @@ class Preprocess(tk.Frame):
 
         label = tk.Label(self, text="No dataset selected.")
         label.pack(pady=10)
+
+    def question_tabs(self, dataset):
+        """
+
+        """
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        # Create the notebook (tab container)
+        self.notebook = ttk.Notebook(self)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
+
+        # Additional tabs
+        for tab_name in ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"]:
+            frame = tk.Frame(self.notebook)
+            self.notebook.add(frame, text=tab_name)

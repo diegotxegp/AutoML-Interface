@@ -7,30 +7,47 @@ from Datasets.datasets import DatasetManager
 from Preprocess.preprocess import Preprocess
 
 class MainApp(tk.Tk):
-    
+
     def __init__(self):
         super().__init__()
         self.title("AutoML-Interface")
         self.geometry("800x600")  # Set main window size
 
-        # Variable to store the selected project
+        # Variables to store the selected project and dataset
         self.selected_project = None
-        # Variable to store the selected dataset
         self.selected_dataset = None
 
         # Create the menu
         self.create_menu_bar()
 
-        # Create the notebook (tab container)
+        # Create the initial window with buttons
+        self.create_initial_window()
+
+    def create_initial_window(self):
+        """
+        Create the initial window with 'Train' and 'Predict' buttons.
+        """
+        self.initial_frame = tk.Frame(self)
+        self.initial_frame.pack(fill=tk.BOTH, expand=True)
+
+        train_button = tk.Button(self.initial_frame, text="Train", command=self.show_tabs, width=20, height=2)
+        train_button.pack(pady=20)
+
+        predict_button = tk.Button(self.initial_frame, text="Predict", command=self.show_tabs, width=20, height=2)
+        predict_button.pack(pady=20)
+
+    def show_tabs(self):
+        """
+        Show the tabs and hide the initial buttons.
+        """
+        self.initial_frame.pack_forget()
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill=tk.BOTH, expand=True)
-
-        # Create the tabs
         self.create_tabs()
-    
+
     def create_tabs(self):
         """
-        Create all the tabs (Projects, Datasets, Preprocess...)
+        Create all the tabs (Projects, Datasets, Preprocess...).
         """
         # Project tab
         self.project_tab = ProjectManager(self.notebook, self)
@@ -40,7 +57,7 @@ class MainApp(tk.Tk):
         self.dataset_tab = DatasetManager(self.notebook, self)
         self.notebook.add(self.dataset_tab, text="Datasets")
 
-        #Preprocess tab
+        # Preprocess tab
         self.preprocess_tab = Preprocess(self.notebook, self)
         self.notebook.add(self.preprocess_tab, text="Preprocess")
 
@@ -49,53 +66,13 @@ class MainApp(tk.Tk):
             frame = tk.Frame(self.notebook)
             self.notebook.add(frame, text=tab_name)
 
-    def get_selected_project(self):
-        return self.selected_project
-
-    def set_selected_project(self, project):
+    def reset_to_initial_window(self):
         """
-        Set project to work
+        Reset the interface back to the initial window with 'Train' and 'Predict' buttons.
         """
-        self.selected_project = project
-        self.dataset_tab.load_datasets(self.selected_project)
-
-    def get_selected_dataset(self):
-        return self.selected_dataset
-
-    def set_selected_dataset(self, dataset):
-        """
-        Set dataset to work
-        """
-        self.selected_dataset = dataset
-
-    def update_dataset_tab(self):
-        """
-        Update dataset tab according to the project selected.
-        """
-        for widget in self.dataset_tab.winfo_children():
-            widget.destroy()
-        
-        if self.selected_project:
-            datasets_dir = os.path.join(self.selected_project.path, "Datasets")
-
-            if os.path.exists(datasets_dir) and os.path.isdir(datasets_dir):
-                dataset_listbox = tk.Listbox(self.dataset_tab)
-                dataset_listbox.pack(fill=tk.BOTH, expand=True)
-
-                datasets = os.listdir(datasets_dir)
-                
-                if datasets:
-                    for dataset in datasets:
-                        dataset_listbox.insert(tk.END, dataset)
-                else:
-                    label = tk.Label(self.dataset_tab, text="No datasets found in 'Datasets' folder.")
-                    label.pack(pady=10)
-            else:
-                label = tk.Label(self.dataset_tab, text="Datasets folder does not exist for this project.")
-                label.pack(pady=10)
-        else:
-            label = tk.Label(self.dataset_tab, text="No project selected.")
-            label.pack(pady=10)
+        if hasattr(self, 'notebook'):
+            self.notebook.pack_forget()
+        self.create_initial_window()
 
     def create_menu_bar(self):
         """
@@ -104,6 +81,13 @@ class MainApp(tk.Tk):
         menu_bar = tk.Menu(self)
         self.config(menu=menu_bar)
 
+        # File menu
+        file_menu = tk.Menu(menu_bar, tearoff=0)
+        menu_bar.add_cascade(label="File", menu=file_menu)
+        file_menu.add_command(label="Reset", command=self.reset_to_initial_window)
+        file_menu.add_command(label="Train", command=self.show_tabs)
+        file_menu.add_command(label="Predict", command=self.show_tabs)
+
         # Help menu
         help_menu = tk.Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="Help", menu=help_menu)
@@ -111,7 +95,6 @@ class MainApp(tk.Tk):
 
     def show_about(self):
         messagebox.showinfo("About", "AutoML-Interface v2.0\nDeveloped by Diego\n2024")
-
 
 # Main
 def main():

@@ -6,11 +6,11 @@ import shutil
 from pathlib import Path
 
 class Dataset:
-    def __init__(self, name, description, path, project, timestamp=None):
+    def __init__(self, name, description, path, related_project, timestamp = None):
         self.name = name
         self.description = description
         self.path = path
-        self.related_project = project
+        self.related_project = related_project
         self.timestamp = timestamp if timestamp else datetime.now()
 
     def __repr__(self):
