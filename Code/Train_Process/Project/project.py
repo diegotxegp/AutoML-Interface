@@ -29,10 +29,10 @@ class Project:
         return self.timestamp
 
 class ProjectManager(tk.Frame):
-    def __init__(self, parent, main_app):
+    def __init__(self, parent, train_process):
         super().__init__(parent)
 
-        self.main_app = main_app  # Reference to the main application
+        self.train_process = train_process  # Reference to the main application
         self.projects = []
 
         self.project_listbox = tk.Listbox(self)
@@ -109,7 +109,7 @@ class ProjectManager(tk.Frame):
 
         if selected_index:
             selected_project = self.projects[selected_index[0]]
-            self.main_app.set_selected_project(selected_project)
+            self.train_process.set_selected_project(selected_project)
 
             # Show a message with details of the selected project
             messagebox.showinfo("Project Selected",

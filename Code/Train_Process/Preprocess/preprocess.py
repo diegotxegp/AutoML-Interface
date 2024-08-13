@@ -34,6 +34,6 @@ class Preprocess(tk.Frame):
         self.notebook.pack(fill=tk.BOTH, expand=True)
 
         # Additional tabs
-        for tab_name in ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6"]:
+        for tab_name in ["Configuration file","Q1", "Q2", "Q3", "Q4", "Q5", "Q6"]:
             frame = tk.Frame(self.notebook)
             self.notebook.add(frame, text=tab_name)

@@ -1,10 +1,7 @@
-import os
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from Projects.projects import ProjectManager
-from Datasets.datasets import DatasetManager
-from Preprocess.preprocess import Preprocess
+from Train_Process.train_process import TrainProcess
 
 class MainApp(tk.Tk):
 
@@ -13,66 +10,42 @@ class MainApp(tk.Tk):
         self.title("AutoML-Interface")
         self.geometry("800x600")  # Set main window size
 
-        # Variables to store the selected project and dataset
-        self.selected_project = None
-        self.selected_dataset = None
-
-        # Create the menu
+        # Create the menu bar
         self.create_menu_bar()
 
-        # Create the initial window with buttons
-        self.create_initial_window()
+        # Create the initial window
+        self.create_main_frame()
 
-    def create_initial_window(self):
+    def create_main_frame(self):
         """
-        Create the initial window with 'Train' and 'Predict' buttons.
+        Initial frame with 'Train' and 'Predict' options.
         """
-        self.initial_frame = tk.Frame(self)
-        self.initial_frame.pack(fill=tk.BOTH, expand=True)
+        self.main_frame = tk.Frame(self)
+        self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        train_button = tk.Button(self.initial_frame, text="Train", command=self.show_tabs, width=20, height=2)
+        train_button = tk.Button(self.main_frame, text="Train", command=self.train_process, width=20, height=2)
         train_button.pack(pady=20)
 
-        predict_button = tk.Button(self.initial_frame, text="Predict", command=self.show_tabs, width=20, height=2)
+        predict_button = tk.Button(self.main_frame, text="Predict", command=self.train_process, width=20, height=2)
         predict_button.pack(pady=20)
 
-    def show_tabs(self):
+    def train_process(self):
         """
-        Show the tabs and hide the initial buttons.
+        Init the train process.
         """
-        self.initial_frame.pack_forget()
-        self.notebook = ttk.Notebook(self)
-        self.notebook.pack(fill=tk.BOTH, expand=True)
-        self.create_tabs()
+        self.main_frame.pack_forget() # Hide the initial frame
 
-    def create_tabs(self):
-        """
-        Create all the tabs (Projects, Datasets, Preprocess...).
-        """
-        # Project tab
-        self.project_tab = ProjectManager(self.notebook, self)
-        self.notebook.add(self.project_tab, text="Projects")
+        TrainProcess(self) # Init the train process
 
-        # Dataset tab
-        self.dataset_tab = DatasetManager(self.notebook, self)
-        self.notebook.add(self.dataset_tab, text="Datasets")
-
-        # Preprocess tab
-        self.preprocess_tab = Preprocess(self.notebook, self)
-        self.notebook.add(self.preprocess_tab, text="Preprocess")
-
-        # Additional tabs
-        for tab_name in ["Train", "Metrics", "Model", "Test", "Predict", "Results"]:
-            frame = tk.Frame(self.notebook)
-            self.notebook.add(frame, text=tab_name)
-
-    def reset_to_initial_window(self):
+    def reset_to_initial_frame(self):
         """
-        Reset the interface back to the initial window with 'Train' and 'Predict' buttons.
+        Reset the interface back to the initial frame with 'Train' and 'Predict' options.
         """
-        if hasattr(self, 'notebook'):
-            self.notebook.pack_forget()
-        self.create_initial_window()
+        # Destroy the current initial_frame to ensure it's fully removed
+        self.main_frame.destroy()
+
+        # Recreate the initial frame
+        self.create_main_frame()
 
     def create_menu_bar(self):
         """
@@ -84,9 +57,9 @@ class MainApp(tk.Tk):
         # File menu
         file_menu = tk.Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="File", menu=file_menu)
-        file_menu.add_command(label="Reset", command=self.reset_to_initial_window)
-        file_menu.add_command(label="Train", command=self.show_tabs)
-        file_menu.add_command(label="Predict", command=self.show_tabs)
+        file_menu.add_command(label="Reset", command=self.reset_to_initial_frame)
+        file_menu.add_command(label="Train", command=self.train_process)
+        file_menu.add_command(label="Predict", command=self.train_process)
 
         # Help menu
         help_menu = tk.Menu(menu_bar, tearoff=0)
@@ -96,7 +69,7 @@ class MainApp(tk.Tk):
     def show_about(self):
         messagebox.showinfo("About", "AutoML-Interface v2.0\nDeveloped by Diego\n2024")
 
-# Main
+
 def main():
     app = MainApp()
     app.mainloop()

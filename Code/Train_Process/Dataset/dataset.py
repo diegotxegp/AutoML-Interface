@@ -5,6 +5,8 @@ from datetime import datetime
 import shutil
 from pathlib import Path
 
+from master_table import filetypes
+
 class Dataset:
     def __init__(self, name, description, path, related_project, timestamp = None):
         self.name = name
@@ -17,10 +19,10 @@ class Dataset:
         return f"Dataset(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
 
 class DatasetManager(tk.Frame):
-    def __init__(self, parent, main_app):
+    def __init__(self, parent, train):
         super().__init__(parent)
 
-        self.main_app = main_app  # Reference to the main application
+        self.train = train  # Reference to the main application
         self.datasets = []
 
         label = tk.Label(self, text="No project selected.")
@@ -74,27 +76,12 @@ class DatasetManager(tk.Frame):
     def add_dataset(self):
         path = filedialog.askopenfilename(
             title="Add a dataset file",
-            filetypes=[
-                ("CSV files", "*.csv"),
-                ("Excel files", "*.xlsx;*.xls"),
-                ("Feather files", "*.feather"),
-                ("FWF files", "*.fwf"),
-                ("HDF5 files", "*.h5;*.hdf5"),
-                ("HTML files", "*.html;*.htm"),
-                ("JSON files", "*.json;*.jsonl"),
-                ("Parquet files", "*.parquet"),
-                ("Pickle files", "*.pkl;*.pickle"),
-                ("SAS files", "*.sas7bdat;*.xpt"),
-                ("SPSS files", "*.sav"),
-                ("Stata files", "*.dta"),
-                ("TSV files", "*.tsv"),
-                ("All files", "*.*")
-            ]
+            filetypes=filetypes # Filetypes saved in master_table
         )
 
         if path:
             try:
-                project = self.main_app.get_selected_project()
+                project = self.train.get_selected_project()
                 datasets_dir = os.path.join(project.path, "Datasets")
                 
                 if not os.path.exists(datasets_dir):
@@ -130,7 +117,7 @@ class DatasetManager(tk.Frame):
 
         if selected_index:
             selected_dataset = self.datasets[selected_index[0]]
-            self.main_app.set_selected_dataset(selected_dataset)
+            self.train.set_selected_dataset(selected_dataset)
             
             messagebox.showinfo("Dataset Selected",
                                 f"Name: {selected_dataset.name}\n"
