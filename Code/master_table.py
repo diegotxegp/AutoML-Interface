@@ -1,5 +1,21 @@
 # Master table
 
+welcome_title = "Welcome to this AutoML interface"
+welcome_text = "This tool allows you to train models and make predictions easily. ""Please select one of the options below to get started."
+
+# Text with information about the tool
+info_text = """
+You have just chosen to train a model. Follow the next tabs to continue with the process of training.
+
+1- Create a new project to allocate all the models in there. Else, select one already created.
+2- Add a dataset to train. One copy of this will be saved in the project directory.
+3- A series of questions will be asked to understand what you want to do.
+4- Train. Brush up the summary of the previous data and push "Train".
+5- After training, some graphics will be showed to check its performance.
+
+Along this process, you can always check this information to make sure your steps.
+"""
+
 filetypes=[
                 ("CSV files", "*.csv"),
                 ("Excel files", "*.xlsx;*.xls"),

@@ -22,9 +22,9 @@ class Preprocess(tk.Frame):
         label = tk.Label(self, text="No dataset selected.")
         label.pack(pady=10)
 
-    def question_tabs(self, dataset):
+    def question_tabs(self):
         """
-
+        Show a series of tabs with a question for each to know about the dataset introduced
         """
         for widget in self.winfo_children():
             widget.destroy()

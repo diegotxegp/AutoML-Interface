@@ -19,10 +19,10 @@ class Dataset:
         return f"Dataset(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
 
 class DatasetManager(tk.Frame):
-    def __init__(self, parent, train):
+    def __init__(self, parent, train_process):
         super().__init__(parent)
 
-        self.train = train  # Reference to the main application
+        self.train_process = train_process  # Reference to train_process
         self.datasets = []
 
         label = tk.Label(self, text="No project selected.")
@@ -81,7 +81,7 @@ class DatasetManager(tk.Frame):
 
         if path:
             try:
-                project = self.train.get_selected_project()
+                project = self.train_process.get_selected_project()
                 datasets_dir = os.path.join(project.path, "Datasets")
                 
                 if not os.path.exists(datasets_dir):
@@ -117,7 +117,7 @@ class DatasetManager(tk.Frame):
 
         if selected_index:
             selected_dataset = self.datasets[selected_index[0]]
-            self.train.set_selected_dataset(selected_dataset)
+            self.train_process.set_selected_dataset(selected_dataset)
             
             messagebox.showinfo("Dataset Selected",
                                 f"Name: {selected_dataset.name}\n"

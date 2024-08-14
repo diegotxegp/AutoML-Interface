@@ -1,7 +1,8 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, font
 
 from Train_Process.train_process import TrainProcess
+from master_table import welcome_title, welcome_text
 
 class MainApp(tk.Tk):
 
@@ -23,11 +24,28 @@ class MainApp(tk.Tk):
         self.main_frame = tk.Frame(self)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        train_button = tk.Button(self.main_frame, text="Train", command=self.train_process, width=20, height=2)
-        train_button.pack(pady=20)
+        # Create the welcome label with a larger and bold font
+        welcome_font = font.Font(family="Helvetica", size=16, weight="bold")
+        welcome_label = tk.Label(self.main_frame, text=welcome_title, font=welcome_font)
+        welcome_label.pack(pady=(20, 10), anchor="n")  # Positioned at the top
 
-        predict_button = tk.Button(self.main_frame, text="Predict", command=self.train_process, width=20, height=2)
-        predict_button.pack(pady=20)
+        # Add a paragraph below the welcome label
+        paragraph_label = tk.Label(self.main_frame, text=welcome_text)
+        paragraph_label.pack(pady=(0, 20), anchor="n")  # Positioned below the welcome label
+
+        # Create a frame for the buttons to keep them together
+        button_frame = tk.Frame(self.main_frame)
+        button_frame.pack(expand=True)  # Expand to fill the available space
+
+        # Create the 'Train' button and add it to the button_frame
+        train_button = tk.Button(button_frame, text="Train a model", command=self.train_process, width=20, height=2)
+        train_button.pack(pady=(0, 10))  # Add some space below the Train button
+
+        # Create the 'Predict' button and add it to the button_frame
+        predict_button = tk.Button(button_frame, text="Predict new data", command=self.train_process, width=20, height=2)
+        predict_button.pack(pady=(10, 0))  # Add some space above the Predict button
+
+
 
     def train_process(self):
         """
