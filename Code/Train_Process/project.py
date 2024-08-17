@@ -106,15 +106,15 @@ class ProjectManager(tk.Frame):
         selected_index = self.project_listbox.curselection()
 
         if selected_index:
-            project = self.projects[selected_index[0]]
-            self.train_process.set_selected_project(project)
+            selected_project = self.projects[selected_index[0]]
+            self.train_process.set_selected_project(selected_project)
 
             # Show a message with details of the selected project
             messagebox.showinfo("Project Selected",
-                                f"Name: {project.name}\n"
-                                f"Description: {project.description}\n"
-                                f"Path: {project.path}\n"
-                                f"Timestamp: {project.timestamp}")
+                                f"Name: {selected_project.get_name()}\n"
+                                f"Description: {selected_project.get_description()}\n"
+                                f"Path: {selected_project.get_path()}\n"
+                                f"Timestamp: {selected_project.get_timestamp()}")
             
             self.train_process.enable_next_tab()
 

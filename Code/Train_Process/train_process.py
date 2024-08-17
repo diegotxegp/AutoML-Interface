@@ -14,11 +14,18 @@ class TrainProcess:
     def __init__(self, main):
         self.main = main
 
-        self.configuration = Configuration()
-
         # Create the notebook (tab container)
         self.notebook = ttk.Notebook(self.main)
         self.notebook.pack(fill=tk.BOTH, expand=True)
+
+        # Windows
+        self.info = None
+        self.project_manager = None
+        self.dataset_manager = None
+        self.preprocess = None
+        self.train = None
+
+        self.configuration = Configuration()
 
         self.create_train_tabs()
 

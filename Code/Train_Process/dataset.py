@@ -1,6 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import messagebox, filedialog, Text
+import pandas as pd
 from datetime import datetime
 import shutil
 from pathlib import Path
@@ -17,6 +18,55 @@ class Dataset:
 
     def __repr__(self):
         return f"Dataset(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
+    
+    def get_name(self):
+        return self.name
+    
+    def get_description(self):
+        return self.description
+    
+    def get_path(self):
+        return self.path
+    
+    def get_related_project(self):
+        return self.related_project
+    
+    def get_timestamp(self):
+        return self.timestamp
+    
+    def read_file(self):
+        """
+        Read the dataframe of a file
+        """
+        try:
+            if self.path.endswith((".csv", ".fwf", ".tsv")):
+                    return pd.read_csv(self.path)
+            elif self.path.endswith((".xlsx", ".xls")):
+                return pd.read_excel(self.path)
+            elif self.path.endswith(".feather"):
+                return pd.read_feather(self.path)
+            elif self.path.endswith((".h5", ".hdf5")):
+                return pd.read_hdf(self.path)
+            elif self.path.endswith((".html", ".htm")):
+                return pd.read_html(self.path)[0]
+            elif self.path.endswith((".json", ".jsonl")):
+                return pd.read_json(self.path)
+            elif self.path.endswith(".parquet"):
+                return pd.read_parquet(self.path)
+            elif self.path.endswith((".pkl", ".pickle")):
+                return pd.read_pickle(self.path)
+            elif self.path.endswith((".sas7bdat", ".xpt")):
+                return pd.read_sas(self.path)
+            elif self.path.endswith(".sav"):
+                return pd.read_spss(self.path)
+            elif self.path.endswith(".dta"):
+                return pd.read_stata(self.path)
+            else:
+                messagebox.showwarning("Warning", "File format not compatible.")
+                return
+
+        except Exception as e:
+            messagebox.showerror("Error", f"File cannot be loaded: {e}")
 
 class DatasetManager(tk.Frame):
     def __init__(self, notebook, train_process):
@@ -40,7 +90,7 @@ class DatasetManager(tk.Frame):
         self.dataset_listbox = tk.Listbox(self)
         self.dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
-        project = self.train_process.configuration.project
+        project = self.train_process.get_selected_project()
         datasets_dir = os.path.join(project.path, "Datasets")
 
         if os.path.exists(datasets_dir):
@@ -78,50 +128,46 @@ class DatasetManager(tk.Frame):
         )
 
         if path:
-            try:
-                project = self.train_process.get_project()
-                datasets_dir = os.path.join(project.path, "Datasets")
-                
-                if not os.path.exists(datasets_dir):
-                    os.makedirs(datasets_dir)
+            project = self.train_process.get_project()
+            datasets_dir = os.path.join(project.path, "Datasets")
+            
+            if not os.path.exists(datasets_dir):
+                os.makedirs(datasets_dir)
 
-                path = Path(path)                
-                dataset_name = path.stem
-                new_dataset_dir = os.path.join(datasets_dir, dataset_name)
-                
-                if not os.path.exists(new_dataset_dir):
-                    os.makedirs(new_dataset_dir)
+            path = Path(path)                
+            dataset_name = path.stem
+            new_dataset_dir = os.path.join(datasets_dir, dataset_name)
+            
+            if not os.path.exists(new_dataset_dir):
+                os.makedirs(new_dataset_dir)
 
-                    shutil.copy(path, new_dataset_dir)
+                shutil.copy(path, new_dataset_dir)
 
-                    description = self.ask_description()
-                    if description:
-                        description_file_path = os.path.join(new_dataset_dir, "description.txt")
-                        with open(description_file_path, "w") as desc_file:
-                            desc_file.write(description)
+                description = self.ask_description()
+                if description:
+                    description_file_path = os.path.join(new_dataset_dir, "description.txt")
+                    with open(description_file_path, "w") as desc_file:
+                        desc_file.write(description)
 
-                    messagebox.showinfo("Success", "Dataset added successfully")
+                messagebox.showinfo("Success", "Dataset added successfully")
 
-                    self.load_datasets(project)
+                self.load_datasets(project)
 
-                else:
-                    messagebox.showerror("Error", "A dataset with that name already exists.")
-
-            except Exception as e:
-                messagebox.showerror("Error", f"File cannot be loaded: {e}")
+            else:
+                messagebox.showerror("Error", "A dataset with that name already exists.")
 
     def select_dataset(self):
         selected_index = self.dataset_listbox.curselection()
 
         if selected_index:
-            dataset = self.datasets[selected_index[0]]
-            self.train_process.set_selected_dataset(dataset)
+            selected_dataset = self.datasets[selected_index[0]]
+            self.train_process.set_selected_dataset(selected_dataset)
             
             messagebox.showinfo("Dataset Selected",
-                                f"Name: {dataset.name}\n"
-                                f"Description: {dataset.description}\n"
-                                f"Path: {dataset.path}\n"
-                                f"Timestamp: {dataset.timestamp}")
+                                f"Name: {selected_dataset.get_name()}\n"
+                                f"Description: {selected_dataset.get_description()}\n"
+                                f"Path: {selected_dataset.get_path()}\n"
+                                f"Timestamp: {selected_dataset.get_timestamp()}")
             
             self.train_process.enable_next_tab()
         else:
