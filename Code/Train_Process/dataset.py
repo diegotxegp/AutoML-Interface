@@ -8,19 +8,19 @@ from pathlib import Path
 from master_table import filetypes
 
 class Dataset:
-    def __init__(self, name, description, path, related_project, timestamp = None):
+    def __init__(self, name, description, path, related_project):
         self.name = name
         self.description = description
         self.path = path
         self.related_project = related_project
-        self.timestamp = timestamp if timestamp else datetime.now()
+        self.timestamp = datetime.now()
 
     def __repr__(self):
         return f"Dataset(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
 
 class DatasetManager(tk.Frame):
-    def __init__(self, parent, train_process):
-        super().__init__(parent)
+    def __init__(self, notebook, train_process):
+        super().__init__(notebook)
 
         self.train_process = train_process  # Reference to train_process
         self.datasets = []
@@ -28,7 +28,7 @@ class DatasetManager(tk.Frame):
         label = tk.Label(self, text="No project selected.")
         label.pack(pady=10)
 
-    def load_datasets(self, project):
+    def load_datasets(self):
         """
         Load list of datasets for the selected project.
         """
@@ -40,6 +40,7 @@ class DatasetManager(tk.Frame):
         self.dataset_listbox = tk.Listbox(self)
         self.dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
+        project = self.train_process.configuration.project
         datasets_dir = os.path.join(project.path, "Datasets")
 
         if os.path.exists(datasets_dir):
@@ -54,14 +55,11 @@ class DatasetManager(tk.Frame):
                     with open(description_file, 'r') as file:
                         description = file.read().strip()
 
-                timestamp = datetime.fromtimestamp(os.path.getctime(dataset_path))
-
                 dataset = Dataset(
                     name=dataset_dir,
                     description=description,
                     path=dataset_path,
-                    related_project = project,
-                    timestamp=timestamp
+                    related_project = project
                 )
 
                 self.datasets.append(dataset)
@@ -81,7 +79,7 @@ class DatasetManager(tk.Frame):
 
         if path:
             try:
-                project = self.train_process.get_selected_project()
+                project = self.train_process.get_project()
                 datasets_dir = os.path.join(project.path, "Datasets")
                 
                 if not os.path.exists(datasets_dir):
@@ -116,14 +114,16 @@ class DatasetManager(tk.Frame):
         selected_index = self.dataset_listbox.curselection()
 
         if selected_index:
-            selected_dataset = self.datasets[selected_index[0]]
-            self.train_process.set_selected_dataset(selected_dataset)
+            dataset = self.datasets[selected_index[0]]
+            self.train_process.set_selected_dataset(dataset)
             
             messagebox.showinfo("Dataset Selected",
-                                f"Name: {selected_dataset.name}\n"
-                                f"Description: {selected_dataset.description}\n"
-                                f"Path: {selected_dataset.path}\n"
-                                f"Timestamp: {selected_dataset.timestamp}")
+                                f"Name: {dataset.name}\n"
+                                f"Description: {dataset.description}\n"
+                                f"Path: {dataset.path}\n"
+                                f"Timestamp: {dataset.timestamp}")
+            
+            self.train_process.enable_next_tab()
         else:
             messagebox.showwarning("Warning", "Please select a dataset.")
 

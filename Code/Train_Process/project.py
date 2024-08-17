@@ -11,7 +11,7 @@ class Project:
         self.name = name
         self.description = description
         self.path = path
-        self.timestamp = timestamp if timestamp else datetime.now()
+        self.timestamp = datetime.now()
 
     def __repr__(self):
         return f"Project(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
@@ -29,10 +29,11 @@ class Project:
         return self.timestamp
 
 class ProjectManager(tk.Frame):
-    def __init__(self, parent, train_process):
-        super().__init__(parent)
+    def __init__(self, notebook, train_process):
+        super().__init__(notebook)
 
-        self.train_process = train_process  # Reference to the main application
+        self.train_process = train_process  # Reference to train_process
+        
         self.projects = []
 
         self.project_listbox = tk.Listbox(self)
@@ -64,14 +65,11 @@ class ProjectManager(tk.Frame):
                 if os.path.exists(description_file):
                     with open(description_file, 'r') as file:
                         description = file.read().strip()
-                        
-                timestamp = datetime.fromtimestamp(os.path.getctime(project_path))
 
                 project = Project(
                     name=project_dir,
                     description=description,
-                    path=project_path,
-                    timestamp=timestamp
+                    path=project_path
                 )
 
                 self.projects.append(project)
@@ -108,15 +106,18 @@ class ProjectManager(tk.Frame):
         selected_index = self.project_listbox.curselection()
 
         if selected_index:
-            selected_project = self.projects[selected_index[0]]
-            self.train_process.set_selected_project(selected_project)
+            project = self.projects[selected_index[0]]
+            self.train_process.set_selected_project(project)
 
             # Show a message with details of the selected project
             messagebox.showinfo("Project Selected",
-                                f"Name: {selected_project.name}\n"
-                                f"Description: {selected_project.description}\n"
-                                f"Path: {selected_project.path}\n"
-                                f"Timestamp: {selected_project.timestamp}")
+                                f"Name: {project.name}\n"
+                                f"Description: {project.description}\n"
+                                f"Path: {project.path}\n"
+                                f"Timestamp: {project.timestamp}")
+            
+            self.train_process.enable_next_tab()
+
         else:
             messagebox.showwarning("Warning", "Please select a project.")
 

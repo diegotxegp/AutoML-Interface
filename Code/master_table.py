@@ -14,6 +14,8 @@ You have just chosen to train a model. Follow the next tabs to continue with the
 5- After training, some graphics will be showed to check its performance.
 
 Along this process, you can always check this information to make sure your steps.
+
+AFTER READING THIS, PRESS "OK" TO CONTINUE
 """
 
 filetypes=[
@@ -36,3 +38,18 @@ feature_classes = ["input", "output", ""]
 input_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector", "audio", "date", "h3", "image", "timeseries"]
 output_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector"]
 separators = [",", ";", "\\"]
+
+
+def enable_next_tab(notebook) -> bool:
+    current_tab = notebook.index('current')
+    total_tabs = len(notebook.tabs())
+    
+    # There is more tabs: True
+    if current_tab < total_tabs - 1:
+        next_tab = current_tab + 1
+        notebook.tab(next_tab, state="normal")
+        notebook.select(next_tab)
+
+    # There is not more tabs: False
+    else:
+        return False
