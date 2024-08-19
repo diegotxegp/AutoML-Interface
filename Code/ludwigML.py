@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import messagebox
+
 from ludwig.automl import auto_train, create_auto_config
 from ludwig.utils.dataset_utils import get_repeatable_train_val_test_split
 from ludwig.visualize import compare_performance
@@ -13,12 +16,14 @@ class Ludwig:
         self.test_df = None
     
 
-    def automl(self, df, target):
+    def automl(df, target):
+        messagebox.showinfo("Start", "AutoML-Interface starting...")
+
         split_df = get_repeatable_train_val_test_split(df, target, random_seed=42)
 
         auto_train_results = auto_train(
             dataset=split_df,
-            target=self.target,
+            target=target,
             time_limit_s=7200,
             tune_for_memory=False,
             user_config={'hyperopt': {'goal': 'maximize', 'metric': 'accuracy', 'output_feature': f"{target}"},
@@ -26,6 +31,7 @@ class Ludwig:
         )
 
         model = auto_train_results.best_model
+        return model
 
     """
     Semi-AutoML

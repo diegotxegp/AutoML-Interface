@@ -94,26 +94,37 @@ class DatasetManager(tk.Frame):
         datasets_dir = os.path.join(project.path, "Datasets")
 
         if os.path.exists(datasets_dir):
-            dataset_dirs = sorted(os.listdir(datasets_dir))
-
-            for dataset_dir in dataset_dirs:
+            # Recorre todos los subdirectorios en datasets_dir
+            for dataset_dir in sorted(os.listdir(datasets_dir)):
                 dataset_path = os.path.join(datasets_dir, dataset_dir)
+                
+                if os.path.isdir(dataset_path):
+                    # Recorre todos los archivos en el subdirectorio actual
+                    for root, dirs, files in os.walk(dataset_path):
+                        for file in files:
+                            # Separa el nombre del archivo de su extensión
+                            file_name, file_extension = os.path.splitext(file)
 
-                description_file = os.path.join(dataset_path, 'description.txt')
-                description = ''
-                if os.path.exists(description_file):
-                    with open(description_file, 'r') as file:
-                        description = file.read().strip()
+                            # Filtra solo los archivos que tienen el mismo nombre que el subdirectorio
+                            if file_name == dataset_dir:
+                                file_path = os.path.join(root, file)
 
-                dataset = Dataset(
-                    name=dataset_dir,
-                    description=description,
-                    path=dataset_path,
-                    related_project = project
-                )
+                                # Leer la descripción si existe
+                                description_file = os.path.join(root, 'description.txt')
+                                description = ''
+                                if os.path.exists(description_file):
+                                    with open(description_file, 'r') as f:
+                                        description = f.read().strip()
 
-                self.datasets.append(dataset)
-                self.dataset_listbox.insert(tk.END, dataset.name)
+                                dataset = Dataset(
+                                    name=f"{file_name}{file_extension}",
+                                    description=description,
+                                    path=file_path,
+                                    related_project=project
+                                )
+
+                                self.datasets.append(dataset)
+                                self.dataset_listbox.insert(tk.END, dataset.name)
 
         self.search_button = tk.Button(self, text="Add dataset", command=self.add_dataset)
         self.search_button.pack(side=tk.RIGHT, padx=5, pady=5)

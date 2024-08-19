@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from ludwig import automl
+from ludwigML import Ludwig
 
 class Train(tk.Frame):
     def __init__(self, notebook, train_process):
@@ -25,7 +25,7 @@ class Train(tk.Frame):
         df = self.configuration.get_dataset().read_file()
         target = self.configuration.get_target()
 
-        automl(df, target)
+        model = Ludwig.automl(df, "class")
 
     def semiautomatic(self):
         a = 3
