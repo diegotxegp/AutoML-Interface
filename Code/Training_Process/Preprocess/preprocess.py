@@ -3,14 +3,14 @@ import tkinter as tk
 from tkinter import messagebox, filedialog, Text, ttk
 from datetime import datetime
 
-from Train_Process.Preprocess.Questions.separator import Separator
-from Train_Process.Preprocess.Questions.missing_data import MissingData
-from Train_Process.Preprocess.Questions.input_features import InputFeatures
-from Train_Process.Preprocess.Questions.input_feature_types import InputFeatureTypes
-from Train_Process.Preprocess.Questions.target import Target
-from Train_Process.Preprocess.Questions.target_types import TargetTypes
-from Train_Process.Preprocess.Questions.depends_on_time import DependsOnTime
-from Train_Process.Preprocess.Questions.metrics import Metrics
+from Training_Process.Preprocess.Questions.separator import Separator
+from Training_Process.Preprocess.Questions.missing_data import MissingData
+from Training_Process.Preprocess.Questions.input_features import InputFeatures
+from Training_Process.Preprocess.Questions.input_feature_types import InputFeatureTypes
+from Training_Process.Preprocess.Questions.target import Target
+from Training_Process.Preprocess.Questions.target_types import TargetTypes
+from Training_Process.Preprocess.Questions.depends_on_time import DependsOnTime
+from Training_Process.Preprocess.Questions.metrics import Metrics
 
 from master_table import enable_next_tab
 
@@ -31,6 +31,8 @@ class Preprocess(tk.Frame):
 
         self.train_process = train_process  # Reference to the main application
 
+        self.configuration = train_process.get_configuration()
+
         label = tk.Label(self, text="No dataset selected.")
         label.pack(pady=10)
 
@@ -47,19 +49,19 @@ class Preprocess(tk.Frame):
         self.question_notebook = ttk.Notebook(self)
         self.question_notebook.pack(fill=tk.BOTH, expand=True)
 
-        separator = Separator(self.question_notebook, self)
+        separator = Separator(self.question_notebook, self, self.configuration)
         self.question_notebook.add(separator, text="Separator")
 
-        missing_data = MissingData(self.question_notebook, self)
+        missing_data = MissingData(self.question_notebook, self, self.configuration)
         self.question_notebook.add(missing_data, text="Missing data?", state="disabled")
 
-        input_features = InputFeatures(self.question_notebook, self)
+        input_features = InputFeatures(self.question_notebook, self, self.configuration)
         self.question_notebook.add(input_features, text="Input features", state="disabled")
 
         input_feature_types = InputFeatureTypes(self.question_notebook, self)
         self.question_notebook.add(input_feature_types, text="Input feature types", state="disabled")
 
-        target = Target(self.question_notebook, self)
+        target = Target(self.question_notebook, self, self.configuration)
         self.question_notebook.add(target, text="Target", state="disabled")
 
         target_types = TargetTypes(self.question_notebook, self)

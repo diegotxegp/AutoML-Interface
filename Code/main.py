@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, font
 
-from Train_Process.train_process import TrainProcess
+from Training_Process.training_process import TrainProcess
 from master_table import welcome_title, welcome_text
 
 class MainApp(tk.Tk):

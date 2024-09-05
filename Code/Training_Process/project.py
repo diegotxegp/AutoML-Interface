@@ -41,10 +41,10 @@ class ProjectManager(tk.Frame):
         
         self.load_projects()
 
-        self.select_button = tk.Button(self, text="Select Project", command=self.select_project)
+        self.select_button = tk.Button(self, text="Select a project", command=self.select_project)
         self.select_button.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.new_project_button = tk.Button(self, text="Create New Project", command=self.create_new_project)
+        self.new_project_button = tk.Button(self, text="Create a new project", command=self.create_new_project)
         self.new_project_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
     def load_projects(self):

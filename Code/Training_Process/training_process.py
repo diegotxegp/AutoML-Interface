@@ -1,12 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
 
-from Train_Process.configuration import Configuration
-from Train_Process.info import Info
-from Train_Process.project import ProjectManager
-from Train_Process.dataset import DatasetManager
-from Train_Process.Preprocess.preprocess import Preprocess
-from Train_Process.train import Train
+from Training_Process.configuration import Configuration
+from Training_Process.info import Info
+from Training_Process.project import ProjectManager
+from Training_Process.dataset import DatasetManager
+from Training_Process.Preprocess.preprocess import Preprocess
+from Training_Process.train import Train
 
 from master_table import enable_next_tab
 
@@ -43,7 +43,7 @@ class TrainProcess:
 
         # Dataset tab
         self.dataset_manager = DatasetManager(self.notebook, self)
-        self.notebook.add(self.dataset_manager, text="Add a dataset", state="disabled")
+        self.notebook.add(self.dataset_manager, text="Select a dataset", state="disabled")
 
         """# Config tab
         frame = tk.Frame(self.notebook)

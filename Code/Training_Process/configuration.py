@@ -10,6 +10,7 @@ class Configuration:
         self.algorithm = None
         self.filetype = None
         self.separator = None
+        self.missing_data = None
         self.runtime = None
         self.maximize_minimize = None
         self.metrics = None
@@ -62,6 +63,12 @@ class Configuration:
     
     def set_separator(self, separator):
         self.separator = separator
+
+    def get_missing_data(self):
+        return self.missing_data
+
+    def set_missing_data(self, missing_data):
+        self.missing_data = missing_data
 
     def get_runtime(self):
         return self.runtime

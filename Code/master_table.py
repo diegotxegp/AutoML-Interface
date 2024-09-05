@@ -1,9 +1,12 @@
+import tkinter as tk
+from tkinter import PanedWindow
+
 # Master table
 
 welcome_title = "Welcome to this AutoML interface"
 welcome_text = "This tool allows you to train models and make predictions easily. ""Please select one of the options below to get started."
 
-# Text with information about the tool
+# Info tab. Text with information about the tool
 info_text = """
 You have just chosen to train a model. Follow the next tabs to continue with the process of training.
 
@@ -17,6 +20,21 @@ Along this process, you can always check this information to make sure your step
 
 AFTER READING THIS, PRESS "OK" TO CONTINUE
 """
+
+# Project tab
+
+# Dataset tab
+
+# Preprocess tab.
+
+## Separator tab.
+separator_label_text = "Which separator among columns does your data use?"
+## Missing data tab
+missing_data_label_text = "How to treat missing data?"
+## Target tab
+target_label_text = "Select which is the target"
+## Input feature tab
+input_features_label_text = "Select which input features to train"
 
 filetypes=[
                 ("CSV files", "*.csv"),
@@ -38,8 +56,9 @@ feature_classes = ["input", "output", ""]
 input_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector", "audio", "date", "h3", "image", "timeseries"]
 output_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector"]
 separators = [",", ";", "\\"]
+missing_data_options = ["fill_with_const", "fill_with_mode", "fill_with_mean", "fill_with_false", "bfill", "ffill", "drop_row"]
 
-
+# Enables the next shadowed tab
 def enable_next_tab(notebook) -> bool:
     current_tab = notebook.index('current')
     total_tabs = len(notebook.tabs())
@@ -53,3 +72,16 @@ def enable_next_tab(notebook) -> bool:
     # There is not more tabs: False
     else:
         return False
+
+# Creates a two-side window
+def paned_window(frame):
+        paned_window = PanedWindow(frame, orient=tk.HORIZONTAL, sashrelief=tk.RAISED, sashwidth=5)
+        paned_window.pack(fill=tk.BOTH, expand=True)
+
+        left_frame = tk.Frame(paned_window)
+        right_frame = tk.Frame(paned_window)
+
+        paned_window.add(left_frame)
+        paned_window.add(right_frame)
+
+        return left_frame, right_frame

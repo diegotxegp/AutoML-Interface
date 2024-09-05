@@ -126,10 +126,10 @@ class DatasetManager(tk.Frame):
                                 self.datasets.append(dataset)
                                 self.dataset_listbox.insert(tk.END, dataset.name)
 
-        self.search_button = tk.Button(self, text="Add dataset", command=self.add_dataset)
+        self.search_button = tk.Button(self, text="Add a dataset", command=self.add_dataset)
         self.search_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
-        self.select_button = tk.Button(self, text="Select Dataset", command=self.select_dataset)
+        self.select_button = tk.Button(self, text="Select a dataset", command=self.select_dataset)
         self.select_button.pack(side=tk.LEFT, padx=5, pady=5)
 
     def add_dataset(self):
