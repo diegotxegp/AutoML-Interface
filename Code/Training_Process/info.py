@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-from master_table import info_text, enable_next_tab
+from descriptions import info_text
+from utils import enable_next_tab
 
 class Info(tk.Frame):
     def __init__(self, notebook):

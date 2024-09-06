@@ -17,6 +17,9 @@ class Ludwig:
     
 
     def automl(df, target):
+        """
+        Automatically trains a model.
+        """
         messagebox.showinfo("Start", "AutoML-Interface starting...")
 
         split_df = get_repeatable_train_val_test_split(df, target, random_seed=42)
@@ -33,12 +36,11 @@ class Ludwig:
         model = auto_train_results.best_model
         return model
 
-    """
-    Semi-AutoML
-    """
     def autoconfig(self):
-
-        self.popup("Creating a default configuration.")
+        """
+        Automatically generates a configuration file from a given dataset.
+        """
+        self.popup("Creating a configuration from a given dataset.")
 
         import pprint
 

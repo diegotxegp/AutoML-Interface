@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 
-from master_table import missing_data_label_text, missing_data_options, paned_window
+from master_table import missing_data_options
+from descriptions import missing_data_label_text
+from utils import split_frame
 
 class MissingData(tk.Frame):
     def __init__(self, notebook, preprocess, configuration):
@@ -10,7 +12,7 @@ class MissingData(tk.Frame):
         self.preprocess = preprocess  # Reference to preprocess
         self.configuration = configuration # Reference to configuration
 
-        left_frame, right_frame = paned_window(self)
+        left_frame, right_frame = split_frame(self)
 
         self.missing_data_frame(left_frame)
         self.description_frame(right_frame)

@@ -1,10 +1,11 @@
-# UTILS
+##### UTILS.py
 
 import tkinter as tk
-from tkinter import PanedWindow
 
-# Enables the next shadowed tab
-def enable_next_tab(notebook) -> bool:
+def enable_next_tab(notebook):
+    """
+    Enable the next shadowed tab
+    """
     current_tab = notebook.index('current')
     total_tabs = len(notebook.tabs())
     
@@ -18,15 +19,20 @@ def enable_next_tab(notebook) -> bool:
     else:
         return False
 
-# Creates a two-side window
-def paned_window(frame):
-        paned_window = PanedWindow(frame, orient=tk.HORIZONTAL, sashrelief=tk.RAISED, sashwidth=5)
-        paned_window.pack(fill=tk.BOTH, expand=True)
+def split_frame(frame):
+    """
+    Split a frame into two sides.
+    """
+    # Left frame
+    left_frame = tk.Frame(frame)
+    left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        left_frame = tk.Frame(paned_window)
-        right_frame = tk.Frame(paned_window)
+    #Right frame
+    right_frame = tk.Frame(frame)
+    right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        paned_window.add(left_frame)
-        paned_window.add(right_frame)
+    # Divider line
+    divider = tk.Frame(frame, bg="grey", width=2)
+    divider.place(relx=0.5, rely=0, relheight=1)
 
-        return left_frame, right_frame
+    return left_frame, right_frame

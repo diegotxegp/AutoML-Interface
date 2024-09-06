@@ -6,7 +6,7 @@ from datetime import datetime
 import shutil
 from pathlib import Path
 
-from master_table import filetypes
+from master_table import file_formats
 
 class Dataset:
     def __init__(self, name, description, path, related_project):
@@ -39,23 +39,23 @@ class Dataset:
         Read the dataframe of a file
         """
         try:
-            if self.path.endswith((".csv", ".fwf", ".tsv")):
+            if self.path.endswith(".csv", ".fwf", ".tsv"):
                     return pd.read_csv(self.path)
-            elif self.path.endswith((".xlsx", ".xls")):
+            elif self.path.endswith(".xlsx", ".xls"):
                 return pd.read_excel(self.path)
             elif self.path.endswith(".feather"):
                 return pd.read_feather(self.path)
-            elif self.path.endswith((".h5", ".hdf5")):
+            elif self.path.endswith(".h5", ".hdf5"):
                 return pd.read_hdf(self.path)
-            elif self.path.endswith((".html", ".htm")):
+            elif self.path.endswith(".html", ".htm"):
                 return pd.read_html(self.path)[0]
-            elif self.path.endswith((".json", ".jsonl")):
+            elif self.path.endswith(".json", ".jsonl"):
                 return pd.read_json(self.path)
             elif self.path.endswith(".parquet"):
                 return pd.read_parquet(self.path)
-            elif self.path.endswith((".pkl", ".pickle")):
+            elif self.path.endswith(".pkl", ".pickle"):
                 return pd.read_pickle(self.path)
-            elif self.path.endswith((".sas7bdat", ".xpt")):
+            elif self.path.endswith(".sas7bdat", ".xpt"):
                 return pd.read_sas(self.path)
             elif self.path.endswith(".sav"):
                 return pd.read_spss(self.path)
@@ -135,11 +135,11 @@ class DatasetManager(tk.Frame):
     def add_dataset(self):
         path = filedialog.askopenfilename(
             title="Add a dataset file",
-            filetypes=filetypes # Filetypes saved in master_table
+            filetypes=file_formats
         )
 
         if path:
-            project = self.train_process.get_project()
+            project = self.train_process.get_selected_project()
             datasets_dir = os.path.join(project.path, "Datasets")
             
             if not os.path.exists(datasets_dir):
@@ -162,7 +162,7 @@ class DatasetManager(tk.Frame):
 
                 messagebox.showinfo("Success", "Dataset added successfully")
 
-                self.load_datasets(project)
+                self.load_datasets()
 
             else:
                 messagebox.showerror("Error", "A dataset with that name already exists.")

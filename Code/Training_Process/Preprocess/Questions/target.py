@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from master_table import target_label_text
+from descriptions import target_label_text
 
 class Target(tk.Frame):
     def __init__(self, notebook, preprocess, configuration):

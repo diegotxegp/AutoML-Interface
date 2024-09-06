@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, font
 
-from Training_Process.training_process import TrainProcess
-from master_table import welcome_title, welcome_text
+from Training_Process.training_process import TrainingProcess
+from descriptions import welcome_title, welcome_text
 
 class MainApp(tk.Tk):
 
@@ -16,26 +16,26 @@ class MainApp(tk.Tk):
         self.create_menu_bar()
 
         # Create the initial window
-        self.create_main_frame()
+        self.create_initial_frame()
 
-    def create_main_frame(self):
+    def create_initial_frame(self):
         """
         Initial frame with 'Train' and 'Predict' options.
         """
-        self.main_frame = tk.Frame(self)
-        self.main_frame.pack(fill=tk.BOTH, expand=True)
+        self.initial_frame = tk.Frame(self)
+        self.initial_frame.pack(fill=tk.BOTH, expand=True)
 
         # Create the welcome label with a larger and bold font
         welcome_font = font.Font(family="Helvetica", size=16, weight="bold")
-        welcome_label = tk.Label(self.main_frame, text=welcome_title, font=welcome_font)
+        welcome_label = tk.Label(self.initial_frame, text=welcome_title, font=welcome_font)
         welcome_label.pack(pady=(20, 10), anchor="n")  # Positioned at the top
 
         # Add a paragraph below the welcome label
-        paragraph_label = tk.Label(self.main_frame, text=welcome_text)
+        paragraph_label = tk.Label(self.initial_frame, text=welcome_text)
         paragraph_label.pack(pady=(0, 20), anchor="n")  # Positioned below the welcome label
 
         # Create a frame for the buttons to keep them together
-        button_frame = tk.Frame(self.main_frame)
+        button_frame = tk.Frame(self.initial_frame)
         button_frame.pack(expand=True)  # Expand to fill the available space
 
         # Create the 'Train' button and add it to the button_frame
@@ -52,19 +52,19 @@ class MainApp(tk.Tk):
         """
         Init the train process.
         """
-        self.main_frame.pack_forget() # Hide the initial frame
+        self.initial_frame.pack_forget() # Hide the initial frame
 
-        TrainProcess(self) # Init the train process
+        TrainingProcess(self) # Init the train process
 
     def reset_to_initial_frame(self):
         """
         Reset the interface back to the initial frame with 'Train' and 'Predict' options.
         """
         # Destroy the current initial_frame to ensure it's fully removed
-        self.main_frame.destroy()
+        self.initial_frame.destroy()
 
         # Recreate the initial frame
-        self.create_main_frame()
+        self.create_initial_frame()
 
     def create_menu_bar(self):
         """

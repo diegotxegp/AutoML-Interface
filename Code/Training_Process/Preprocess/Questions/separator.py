@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, PanedWindow
 
-from master_table import separators, separator_label_text, paned_window
+from master_table import separators
+from descriptions import separator_label_text
+from utils import split_frame
 
 class Separator(tk.Frame):
     def __init__(self, notebook, preprocess, configuration):
@@ -10,10 +12,10 @@ class Separator(tk.Frame):
         self.preprocess = preprocess  # Reference to preprocess
         self.configuration = configuration # Reference to configuration
 
-        left_frame, right_frame = paned_window(self)
+        self.left_frame, self.right_frame = split_frame(self)
 
-        self.separator_frame(left_frame)
-        self.description_frame(right_frame)
+        self.separator_frame(self.left_frame)
+        self.description_frame(self.right_frame)
 
     def separator_frame(self, frame):
         label = tk.Label(frame, text=separator_label_text)
@@ -23,7 +25,7 @@ class Separator(tk.Frame):
         combo.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
         combo.set(separators[0])
 
-        ok_button = tk.Button(self, text="Ok", command=lambda:self.ok(combo.get()))
+        ok_button = tk.Button(frame, text="Ok", command=lambda:self.ok(combo.get()))
         ok_button.pack(side=tk.BOTTOM, padx=5, pady=5)
 
     def description_frame(self, frame):

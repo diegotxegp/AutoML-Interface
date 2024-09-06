@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from master_table import input_features_label_text
+from descriptions import input_features_label_text
 
 class InputFeatures(tk.Frame):
     def __init__(self, notebook, preprocess, configuration):
@@ -18,7 +18,7 @@ class InputFeatures(tk.Frame):
 
         seleccion = []
         for i, opcion in enumerate(input_features):
-            var = tk.IntVar()  # Variable que controla si el Checkbutton está seleccionado o no
+            var = tk.IntVar()
             chk = ttk.Checkbutton(self, text=opcion, variable=var)
             chk.pack(anchor='w', pady=2)
             seleccion.append(var)

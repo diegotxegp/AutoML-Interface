@@ -8,9 +8,9 @@ from Training_Process.dataset import DatasetManager
 from Training_Process.Preprocess.preprocess import Preprocess
 from Training_Process.train import Train
 
-from master_table import enable_next_tab
+from utils import enable_next_tab
 
-class TrainProcess:
+class TrainingProcess:
     def __init__(self, main):
         self.main = main
 
@@ -27,9 +27,9 @@ class TrainProcess:
 
         self.configuration = Configuration()
 
-        self.create_train_tabs()
+        self.create_training_tabs()
 
-    def create_train_tabs(self):
+    def create_training_tabs(self):
         """
         Create tabs for each section (Projects, Datasets, Preprocess, etc.).
         """

@@ -12,7 +12,7 @@ from Training_Process.Preprocess.Questions.target_types import TargetTypes
 from Training_Process.Preprocess.Questions.depends_on_time import DependsOnTime
 from Training_Process.Preprocess.Questions.metrics import Metrics
 
-from master_table import enable_next_tab
+from utils import enable_next_tab
 
 """class Configuration:
     def __init__(self, name, description, path, related_dataset, timestamp=None):
@@ -55,8 +55,8 @@ class Preprocess(tk.Frame):
         missing_data = MissingData(self.question_notebook, self, self.configuration)
         self.question_notebook.add(missing_data, text="Missing data?", state="disabled")
 
-        input_features = InputFeatures(self.question_notebook, self, self.configuration)
-        self.question_notebook.add(input_features, text="Input features", state="disabled")
+        """input_features = InputFeatures(self.question_notebook, self, self.configuration)
+        self.question_notebook.add(input_features, text="Input features", state="disabled")"""
 
         input_feature_types = InputFeatureTypes(self.question_notebook, self)
         self.question_notebook.add(input_feature_types, text="Input feature types", state="disabled")
