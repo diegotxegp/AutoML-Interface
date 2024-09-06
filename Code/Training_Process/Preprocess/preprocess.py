@@ -1,7 +1,5 @@
-import os
 import tkinter as tk
-from tkinter import messagebox, filedialog, Text, ttk
-from datetime import datetime
+from tkinter import ttk
 
 from Training_Process.Preprocess.Questions.separator import Separator
 from Training_Process.Preprocess.Questions.missing_data import MissingData
@@ -14,24 +12,15 @@ from Training_Process.Preprocess.Questions.metrics import Metrics
 
 from utils import enable_next_tab
 
-"""class Configuration:
-    def __init__(self, name, description, path, related_dataset, timestamp=None):
-        self.name = name
-        self.description = description
-        self.path = path
-        self.related_dataset = related_dataset
-        self.timestamp = timestamp if timestamp else datetime.now()"""
-
-
 class Preprocess(tk.Frame):
-    def __init__(self, notebook, train_process):
+    def __init__(self, notebook, training_process):
         super().__init__(notebook)
 
         self.parent_notebook = notebook
 
-        self.train_process = train_process  # Reference to the main application
+        self.training_process = training_process  # Reference to the main application
 
-        self.configuration = train_process.get_configuration()
+        self.configuration = training_process.get_configuration()
 
         label = tk.Label(self, text="No dataset selected.")
         label.pack(pady=10)

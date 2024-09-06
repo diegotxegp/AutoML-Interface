@@ -72,7 +72,7 @@ class DatasetManager(tk.Frame):
     def __init__(self, notebook, train_process):
         super().__init__(notebook)
 
-        self.train_process = train_process  # Reference to train_process
+        self.training_process = train_process  # Reference to train_process
         self.datasets = []
 
         label = tk.Label(self, text="No project selected.")
@@ -90,7 +90,7 @@ class DatasetManager(tk.Frame):
         self.dataset_listbox = tk.Listbox(self)
         self.dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
-        project = self.train_process.get_selected_project()
+        project = self.training_process.get_selected_project()
         datasets_dir = os.path.join(project.path, "Datasets")
 
         if os.path.exists(datasets_dir):
@@ -139,7 +139,7 @@ class DatasetManager(tk.Frame):
         )
 
         if path:
-            project = self.train_process.get_selected_project()
+            project = self.training_process.get_selected_project()
             datasets_dir = os.path.join(project.path, "Datasets")
             
             if not os.path.exists(datasets_dir):
@@ -172,7 +172,7 @@ class DatasetManager(tk.Frame):
 
         if selected_index:
             selected_dataset = self.datasets[selected_index[0]]
-            self.train_process.set_selected_dataset(selected_dataset)
+            self.training_process.set_selected_dataset(selected_dataset)
             
             messagebox.showinfo("Dataset Selected",
                                 f"Name: {selected_dataset.get_name()}\n"
@@ -180,7 +180,7 @@ class DatasetManager(tk.Frame):
                                 f"Path: {selected_dataset.get_path()}\n"
                                 f"Timestamp: {selected_dataset.get_timestamp()}")
             
-            self.train_process.enable_next_tab()
+            self.training_process.enable_next_tab()
         else:
             messagebox.showwarning("Warning", "Please select a dataset.")
 

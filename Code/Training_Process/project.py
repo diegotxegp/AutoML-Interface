@@ -29,10 +29,10 @@ class Project:
         return self.timestamp
 
 class ProjectManager(tk.Frame):
-    def __init__(self, notebook, train_process):
+    def __init__(self, notebook, training_process):
         super().__init__(notebook)
 
-        self.train_process = train_process  # Reference to train_process
+        self.training_process = training_process  # Reference to train_process
         
         self.projects = []
 
@@ -107,7 +107,7 @@ class ProjectManager(tk.Frame):
 
         if selected_index:
             selected_project = self.projects[selected_index[0]]
-            self.train_process.set_selected_project(selected_project)
+            self.training_process.set_selected_project(selected_project)
 
             # Show a message with details of the selected project
             messagebox.showinfo("Project Selected",
@@ -116,7 +116,7 @@ class ProjectManager(tk.Frame):
                                 f"Path: {selected_project.get_path()}\n"
                                 f"Timestamp: {selected_project.get_timestamp()}")
             
-            self.train_process.enable_next_tab()
+            self.training_process.enable_next_tab()
 
         else:
             messagebox.showwarning("Warning", "Please select a project.")

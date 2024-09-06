@@ -5,7 +5,9 @@ from Training_Process.configuration import Configuration
 from Training_Process.info import Info
 from Training_Process.project import ProjectManager
 from Training_Process.dataset import DatasetManager
+from Training_Process.mode import Mode
 from Training_Process.Preprocess.preprocess import Preprocess
+from Training_Process.summary import Summary
 from Training_Process.train import Train
 
 from utils import enable_next_tab
@@ -39,30 +41,30 @@ class TrainingProcess:
 
         # Project tab
         self.project_manager = ProjectManager(self.notebook, self)
-        self.notebook.add(self.project_manager, text="Select a project", state="disabled")
+        self.notebook.add(self.project_manager, text="Project", state="disabled")
 
         # Dataset tab
         self.dataset_manager = DatasetManager(self.notebook, self)
-        self.notebook.add(self.dataset_manager, text="Select a dataset", state="disabled")
+        self.notebook.add(self.dataset_manager, text="Dataset", state="disabled")
 
-        """# Config tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Config file", state="disabled")"""
+        # Mode tab
+        self.mode = Mode(self.notebook, self)
+        self.notebook.add(self.mode, text="Mode", state="disabled")
 
         # Questions tab
         self.preprocess = Preprocess(self.notebook, self)
-        self.notebook.add(self.preprocess, text="Some questions", state="disabled")
+        self.notebook.add(self.preprocess, text="Preprocess", state="disabled")
 
-        """# Summary tab
-        self.summary = Train(self.notebook, self)
-        self.notebook.add(self.sumary, text="Summary", state="disabled")"""
+        # Summary tab
+        self.summary = Summary(self.notebook, self)
+        self.notebook.add(self.summary, text="Summary", state="disabled")
 
         # Train tab
         self.train = Train(self.notebook, self)
         self.notebook.add(self.train, text="Train", state="disabled")
 
         # Pestañas adicionales
-        for tab_name in ["Metrics of performance"]:
+        for tab_name in ["Evaluation"]:
             frame = tk.Frame(self.notebook)
             self.notebook.add(frame, text=tab_name, state="disabled")
 
@@ -81,7 +83,7 @@ class TrainingProcess:
         Set dataset to work
         """
         self.configuration.set_dataset(selected_dataset)
-        self.preprocess.create_question_tabs()
+        #self.preprocess.create_question_tabs()
 
     def get_configuration(self):
         return self.configuration

@@ -39,16 +39,16 @@ class MainApp(tk.Tk):
         button_frame.pack(expand=True)  # Expand to fill the available space
 
         # Create the 'Train' button and add it to the button_frame
-        train_button = tk.Button(button_frame, text="Train a model", command=self.train_process, width=20, height=2)
+        train_button = tk.Button(button_frame, text="Train a model", command=self.training_process, width=20, height=2)
         train_button.pack(pady=(0, 10))  # Add some space below the Train button
 
         # Create the 'Predict' button and add it to the button_frame
-        predict_button = tk.Button(button_frame, text="Predict new data", command=self.train_process, width=20, height=2)
+        predict_button = tk.Button(button_frame, text="Predict new data", command=self.training_process, width=20, height=2)
         predict_button.pack(pady=(10, 0))  # Add some space above the Predict button
 
 
 
-    def train_process(self):
+    def training_process(self):
         """
         Init the train process.
         """
@@ -77,8 +77,8 @@ class MainApp(tk.Tk):
         file_menu = tk.Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="Reset", command=self.reset_to_initial_frame)
-        file_menu.add_command(label="Train", command=self.train_process)
-        file_menu.add_command(label="Predict", command=self.train_process)
+        file_menu.add_command(label="Train", command=self.training_process)
+        file_menu.add_command(label="Predict", command=self.training_process)
 
         # Help menu
         help_menu = tk.Menu(menu_bar, tearoff=0)
