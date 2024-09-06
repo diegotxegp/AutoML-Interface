@@ -14,20 +14,13 @@ from utils import enable_next_tab
 
 class TrainingProcess:
     def __init__(self, main):
-        self.main = main
+
+        self.dataset_manager = None
+        self.configuration = Configuration()
 
         # Create the notebook (tab container)
-        self.notebook = ttk.Notebook(self.main)
+        self.notebook = ttk.Notebook(main)
         self.notebook.pack(fill=tk.BOTH, expand=True)
-
-        # Windows
-        self.info = None
-        self.project_manager = None
-        self.dataset_manager = None
-        self.preprocess = None
-        self.train = None
-
-        self.configuration = Configuration()
 
         self.create_training_tabs()
 
@@ -36,49 +29,49 @@ class TrainingProcess:
         Create tabs for each section (Projects, Datasets, Preprocess, etc.).
         """
         # Info tab
-        self.info = Info(self.notebook)
-        self.notebook.add(self.info, text="Info")
+        info = Info(self.notebook)
+        self.notebook.add(info, text="Info")
 
         # Project tab
-        self.project_manager = ProjectManager(self.notebook, self)
-        self.notebook.add(self.project_manager, text="Project", state="disabled")
+        project_manager = ProjectManager(self.notebook, self)
+        self.notebook.add(project_manager, text="Project", state="disabled")
 
         # Dataset tab
         self.dataset_manager = DatasetManager(self.notebook, self)
         self.notebook.add(self.dataset_manager, text="Dataset", state="disabled")
 
         # Mode tab
-        self.mode = Mode(self.notebook, self)
-        self.notebook.add(self.mode, text="Mode", state="disabled")
+        mode = Mode(self.notebook, self)
+        self.notebook.add(mode, text="Mode", state="disabled")
 
         # Questions tab
-        self.preprocess = Preprocess(self.notebook, self)
-        self.notebook.add(self.preprocess, text="Preprocess", state="disabled")
+        preprocess = Preprocess(self.notebook, self)
+        self.notebook.add(preprocess, text="Preprocess", state="disabled")
 
         # Summary tab
-        self.summary = Summary(self.notebook, self)
-        self.notebook.add(self.summary, text="Summary", state="disabled")
+        summary = Summary(self.notebook, self)
+        self.notebook.add(summary, text="Summary", state="disabled")
 
         # Train tab
-        self.train = Train(self.notebook, self)
-        self.notebook.add(self.train, text="Train", state="disabled")
+        train = Train(self.notebook, self)
+        self.notebook.add(train, text="Train", state="disabled")
 
         # Pestañas adicionales
         for tab_name in ["Evaluation"]:
             frame = tk.Frame(self.notebook)
             self.notebook.add(frame, text=tab_name, state="disabled")
 
-    def set_selected_project(self, selected_project):
+    def set_project(self, selected_project):
         """
         Set project to work
         """
         self.configuration.set_project(selected_project)
         self.dataset_manager.load_datasets()
 
-    def get_selected_project(self):
+    def get_project(self):
         return self.configuration.get_project()
     
-    def set_selected_dataset(self, selected_dataset):
+    def set_dataset(self, selected_dataset):
         """
         Set dataset to work
         """
@@ -89,4 +82,7 @@ class TrainingProcess:
         return self.configuration
 
     def enable_next_tab(self):
+        """
+        Enable the next tab
+        """
         enable_next_tab(self.notebook)

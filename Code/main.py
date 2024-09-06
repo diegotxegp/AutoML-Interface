@@ -46,8 +46,6 @@ class MainApp(tk.Tk):
         predict_button = tk.Button(button_frame, text="Predict new data", command=self.training_process, width=20, height=2)
         predict_button.pack(pady=(10, 0))  # Add some space above the Predict button
 
-
-
     def training_process(self):
         """
         Init the train process.

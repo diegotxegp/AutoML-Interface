@@ -4,9 +4,10 @@ class Configuration:
     def __init__(self):        
         self.project = None
         self.dataset = None
+        self.path = None
+        self.timestamp = datetime.now()
         self.input_features = None
         self.target = None
-        self.path = None
         self.algorithm = None
         self.filetype = None
         self.separator = None
@@ -14,7 +15,6 @@ class Configuration:
         self.runtime = None
         self.maximize_minimize = None
         self.metrics = None
-        self.timestamp = datetime.now()
 
     def get_project(self):
         return self.project
@@ -28,6 +28,12 @@ class Configuration:
     def set_dataset(self, dataset):
         self.dataset = dataset
 
+    def get_path(self):
+        return self.path
+    
+    def set_path(self, path):
+        self.path = path
+
     def get_input_features(self):
         return self.input_features
     
@@ -39,12 +45,6 @@ class Configuration:
     
     def set_target(self, target):
         self.target = target
-
-    def get_path(self):
-        return self.path
-    
-    def set_path(self, path):
-        self.path = path
 
     def get_algorithm(self):
         return self.algorithm

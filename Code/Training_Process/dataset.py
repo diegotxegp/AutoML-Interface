@@ -90,7 +90,7 @@ class DatasetManager(tk.Frame):
         self.dataset_listbox = tk.Listbox(self)
         self.dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
-        project = self.training_process.get_selected_project()
+        project = self.training_process.get_project()
         datasets_dir = os.path.join(project.path, "Datasets")
 
         if os.path.exists(datasets_dir):
@@ -172,7 +172,7 @@ class DatasetManager(tk.Frame):
 
         if selected_index:
             selected_dataset = self.datasets[selected_index[0]]
-            self.training_process.set_selected_dataset(selected_dataset)
+            self.training_process.set_dataset(selected_dataset)
             
             messagebox.showinfo("Dataset Selected",
                                 f"Name: {selected_dataset.get_name()}\n"

@@ -107,7 +107,7 @@ class ProjectManager(tk.Frame):
 
         if selected_index:
             selected_project = self.projects[selected_index[0]]
-            self.training_process.set_selected_project(selected_project)
+            self.training_process.set_project(selected_project)
 
             # Show a message with details of the selected project
             messagebox.showinfo("Project Selected",
