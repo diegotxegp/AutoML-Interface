@@ -1,13 +1,13 @@
 import tkinter as tk
 
-from ludwigML import Ludwig
+from Training_Process.ludwigML import Ludwig
 
 class Train(tk.Frame):
-    def __init__(self, notebook, train_process):
+    def __init__(self, notebook, training_process):
         super().__init__(notebook)
         
-        self.train_process = train_process
-        self.configuration = self.train_process.get_configuration()
+        self.training_process = training_process
+        self.configuration = self.training_process.configuration
 
         # Create a frame for the buttons to keep them together
         button_frame = tk.Frame(self)

@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
+from datetime import datetime
 
-from Training_Process.configuration import Configuration
+from Training_Process.ludwigML import Ludwig
+
 from Training_Process.info import Info
 from Training_Process.project import ProjectManager
 from Training_Process.dataset import DatasetManager
@@ -12,10 +14,27 @@ from Training_Process.train import Train
 
 from utils import enable_next_tab
 
+class Configuration:
+    def __init__(self):        
+        self.project = None
+        self.dataset = None
+        self.path = None
+        self.timestamp = datetime.now()
+        self.config = None
+        self.input_features = None
+        self.target = None
+        self.algorithm = None
+        self.fileformat = None
+        self.separator = None
+        self.missing_data = None
+        self.runtime = None
+        self.maximize_minimize = None
+        self.metrics = None
+
 class TrainingProcess:
     def __init__(self, main):
 
-        self.dataset_manager = None
+        self.dataset_manager = None # Hacer que dataset_manager se ejecute cuando detecte que cambia a su pestaña
         self.configuration = Configuration()
 
         # Create the notebook (tab container)
@@ -65,24 +84,22 @@ class TrainingProcess:
         """
         Set project to work
         """
-        self.configuration.set_project(selected_project)
+        self.configuration.project = selected_project
         self.dataset_manager.load_datasets()
-
-    def get_project(self):
-        return self.configuration.get_project()
     
     def set_dataset(self, selected_dataset):
         """
         Set dataset to work
         """
-        self.configuration.set_dataset(selected_dataset)
-        #self.preprocess.create_question_tabs()
-
-    def get_configuration(self):
-        return self.configuration
+        self.configuration.dataset = selected_dataset
 
     def enable_next_tab(self):
         """
         Enable the next tab
         """
         enable_next_tab(self.notebook)
+
+    def semiml(self):
+        self.ludwig = Ludwig(self.configuration.dataset.path)
+        self.ludwig.autoconfig()
+        print(self.ludwig.config)

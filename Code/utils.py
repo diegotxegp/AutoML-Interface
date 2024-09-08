@@ -2,7 +2,7 @@
 
 import tkinter as tk
 
-def enable_next_tab(notebook):
+def enable_next_tab(notebook, positions=1):
     """
     Enable the next shadowed tab
     """
@@ -11,7 +11,7 @@ def enable_next_tab(notebook):
     
     # There is more tabs: True
     if current_tab < total_tabs - 1:
-        next_tab = current_tab + 1
+        next_tab = current_tab + positions
         notebook.tab(next_tab, state="normal")
         notebook.select(next_tab)
 

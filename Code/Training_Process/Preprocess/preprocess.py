@@ -20,7 +20,7 @@ class Preprocess(tk.Frame):
 
         self.training_process = training_process  # Reference to the main application
 
-        self.configuration = training_process.get_configuration()
+        self.configuration = training_process.configuration
 
         label = tk.Label(self, text="No dataset selected.")
         label.pack(pady=10)

@@ -18,55 +18,6 @@ class Dataset:
 
     def __repr__(self):
         return f"Dataset(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
-    
-    def get_name(self):
-        return self.name
-    
-    def get_description(self):
-        return self.description
-    
-    def get_path(self):
-        return self.path
-    
-    def get_related_project(self):
-        return self.related_project
-    
-    def get_timestamp(self):
-        return self.timestamp
-    
-    def read_file(self):
-        """
-        Read the dataframe of a file
-        """
-        try:
-            if self.path.endswith(".csv", ".fwf", ".tsv"):
-                    return pd.read_csv(self.path)
-            elif self.path.endswith(".xlsx", ".xls"):
-                return pd.read_excel(self.path)
-            elif self.path.endswith(".feather"):
-                return pd.read_feather(self.path)
-            elif self.path.endswith(".h5", ".hdf5"):
-                return pd.read_hdf(self.path)
-            elif self.path.endswith(".html", ".htm"):
-                return pd.read_html(self.path)[0]
-            elif self.path.endswith(".json", ".jsonl"):
-                return pd.read_json(self.path)
-            elif self.path.endswith(".parquet"):
-                return pd.read_parquet(self.path)
-            elif self.path.endswith(".pkl", ".pickle"):
-                return pd.read_pickle(self.path)
-            elif self.path.endswith(".sas7bdat", ".xpt"):
-                return pd.read_sas(self.path)
-            elif self.path.endswith(".sav"):
-                return pd.read_spss(self.path)
-            elif self.path.endswith(".dta"):
-                return pd.read_stata(self.path)
-            else:
-                messagebox.showwarning("Warning", "File format not compatible.")
-                return
-
-        except Exception as e:
-            messagebox.showerror("Error", f"File cannot be loaded: {e}")
 
 class DatasetManager(tk.Frame):
     def __init__(self, notebook, train_process):
@@ -90,7 +41,7 @@ class DatasetManager(tk.Frame):
         self.dataset_listbox = tk.Listbox(self)
         self.dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
-        project = self.training_process.get_project()
+        project = self.training_process.configuration.project
         datasets_dir = os.path.join(project.path, "Datasets")
 
         if os.path.exists(datasets_dir):
@@ -175,10 +126,10 @@ class DatasetManager(tk.Frame):
             self.training_process.set_dataset(selected_dataset)
             
             messagebox.showinfo("Dataset Selected",
-                                f"Name: {selected_dataset.get_name()}\n"
-                                f"Description: {selected_dataset.get_description()}\n"
-                                f"Path: {selected_dataset.get_path()}\n"
-                                f"Timestamp: {selected_dataset.get_timestamp()}")
+                                f"Name: {selected_dataset.name}\n"
+                                f"Description: {selected_dataset.description}\n"
+                                f"Path: {selected_dataset.path}\n"
+                                f"Timestamp: {selected_dataset.timestamp}")
             
             self.training_process.enable_next_tab()
         else:

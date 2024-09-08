@@ -1,7 +1,5 @@
 import tkinter as tk
 
-from ludwigML import Ludwig
-
 class Mode(tk.Frame):
     def __init__(self, notebook, training_process):
         super().__init__(notebook)
