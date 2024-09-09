@@ -3,10 +3,7 @@ from tkinter import ttk
 
 from Training_Process.Preprocess.Questions.separator import Separator
 from Training_Process.Preprocess.Questions.missing_data import MissingData
-from Training_Process.Preprocess.Questions.input_features import InputFeatures
-from Training_Process.Preprocess.Questions.input_feature_types import InputFeatureTypes
-from Training_Process.Preprocess.Questions.target import Target
-from Training_Process.Preprocess.Questions.target_types import TargetTypes
+from Training_Process.Preprocess.Questions.features import Features
 from Training_Process.Preprocess.Questions.depends_on_time import DependsOnTime
 from Training_Process.Preprocess.Questions.metrics import Metrics
 
@@ -38,23 +35,17 @@ class Preprocess(tk.Frame):
         self.question_notebook = ttk.Notebook(self)
         self.question_notebook.pack(fill=tk.BOTH, expand=True)
 
-        separator = Separator(self.question_notebook, self, self.configuration)
-        self.question_notebook.add(separator, text="Separator")
+        # Input features tab
+        features = Features(self.question_notebook, self, self.configuration)
+        self.question_notebook.add(features, text="Features")
 
+        # Separator tab
+        separator = Separator(self.question_notebook, self, self.configuration)
+        self.question_notebook.add(separator, text="Separator", state="disabled")
+
+        # Missing data tab
         missing_data = MissingData(self.question_notebook, self, self.configuration)
         self.question_notebook.add(missing_data, text="Missing data?", state="disabled")
-
-        """input_features = InputFeatures(self.question_notebook, self, self.configuration)
-        self.question_notebook.add(input_features, text="Input features", state="disabled")"""
-
-        input_feature_types = InputFeatureTypes(self.question_notebook, self)
-        self.question_notebook.add(input_feature_types, text="Input feature types", state="disabled")
-
-        target = Target(self.question_notebook, self, self.configuration)
-        self.question_notebook.add(target, text="Target", state="disabled")
-
-        target_types = TargetTypes(self.question_notebook, self)
-        self.question_notebook.add(target_types, text="Target types", state="disabled")
 
         depends_on_time = DependsOnTime(self.question_notebook, self)
         self.question_notebook.add(depends_on_time, text="Does it depend on time?", state="disabled")

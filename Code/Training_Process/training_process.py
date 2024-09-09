@@ -18,18 +18,14 @@ class Configuration:
     def __init__(self):        
         self.project = None
         self.dataset = None
-        self.path = None
         self.timestamp = datetime.now()
-        self.config = None
         self.input_features = None
         self.target = None
-        self.algorithm = None
-        self.fileformat = None
+        self.samples = None
         self.separator = None
         self.missing_data = None
         self.runtime = None
-        self.maximize_minimize = None
-        self.metrics = None
+        self.metric = None
 
 class TrainingProcess:
     def __init__(self, main):
@@ -100,6 +96,12 @@ class TrainingProcess:
         enable_next_tab(self.notebook)
 
     def semiml(self):
-        self.ludwig = Ludwig(self.configuration.dataset.path)
-        self.ludwig.autoconfig()
-        print(self.ludwig.config)
+        ludwig = Ludwig(self.configuration.dataset.path)
+        ludwig.autoconfig()
+        self.configuration.input_features = ludwig.input_features()
+        self.configuration.target = ludwig.output_features()
+        self.configuration.metric = ludwig.metric()
+        self.configuration.runtime = ludwig.runtime()
+        self.configuration.samples = ludwig.samples()
+
+        self.enable_next_tab()

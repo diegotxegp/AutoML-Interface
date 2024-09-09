@@ -72,6 +72,8 @@ class Ludwig:
 
         self.model = auto_train_results.best_model
 
+        print("Model trained successfully")
+
     def autoconfig(self):
         """
         Automatically generates a configuration file.
@@ -83,6 +85,25 @@ class Ludwig:
             target=self.target,
             time_limit_s=7200,
             tune_for_memory=False,
-            user_config={'hyperopt': {'goal': 'maximize', 'metric': 'accuracy', 'output_feature': f"{self.target}"},
-                'preprocessing': {'split': {'column': 'split', 'type': 'fixed'}}},
+            user_config={'hyperopt': {'goal': 'maximize', 'metric': 'accuracy', 'output_feature': f"{self.target}"}},
         )
+
+        print("Config generated successfully")
+
+    def input_features(self):
+        input_feature_dict = {i_f["column"]: i_f['type'] for i_f in self.config["input_features"]}
+        return input_feature_dict
+    
+    def output_features(self):
+        output_feature_dict = {o_f["column"]: o_f['type'] for o_f in self.config["output_features"]}
+        return output_feature_dict
+    
+    def metric(self):
+        metric_dict = {self.config["hyperopt"]["metric"]:self.config["hyperopt"]["goal"]}
+        return metric_dict
+    
+    def runtime(self):
+        return self.config["hyperopt"]["executor"]["time_budget_s"]
+    
+    def samples(self):
+        return self.config["hyperopt"]["executor"]["num_samples"]

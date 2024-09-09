@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox, font
 
 from Training_Process.training_process import TrainingProcess
-from descriptions import welcome_title, welcome_text
+from descriptions import welcome_title, welcome_text, interface_menu_about
 
 class MainApp(tk.Tk):
 
@@ -84,7 +84,7 @@ class MainApp(tk.Tk):
         help_menu.add_command(label="About", command=self.show_about)
 
     def show_about(self):
-        messagebox.showinfo("About", "AutoML-Interface v2.0\nDeveloped by Diego\n2024")
+        messagebox.showinfo("About", interface_menu_about)
 
 
 def main():

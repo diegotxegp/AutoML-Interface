@@ -48,3 +48,5 @@ missing_data_help_description = """
     ffill: Replaces the missing values with the previous valid value from the preceding rows of the input dataset.
     drop_row: Removes the entire row from the dataset if this column is missing.
 """
+
+interface_menu_about = "AutoML-Interface v2.0\nDeveloped by Diego\n2024"
