@@ -4,13 +4,11 @@ from tkinter import ttk, messagebox, font
 from Training_Process.training_process import TrainingProcess
 from descriptions import welcome_title, welcome_text, interface_menu_about
 
-class MainApp(tk.Tk):
-
-    def __init__(self):
-        super().__init__()
-
-        self.title("AutoML-Interface")
-        self.geometry("800x600")  # Set main window size
+class MainApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("AutoML-Interface")
+        self.root.geometry("800x600")  # Set main window size
 
         # Create the menu bar
         self.create_menu_bar()
@@ -22,7 +20,7 @@ class MainApp(tk.Tk):
         """
         Initial frame with 'Train' and 'Predict' options.
         """
-        self.initial_frame = tk.Frame(self)
+        self.initial_frame = tk.Frame(self.root)
         self.initial_frame.pack(fill=tk.BOTH, expand=True)
 
         # Create the welcome label with a larger and bold font
@@ -48,11 +46,12 @@ class MainApp(tk.Tk):
 
     def training_process(self):
         """
-        Init the train process.
+        Start the training process.
         """
         self.initial_frame.pack_forget() # Hide the initial frame
 
-        TrainingProcess(self) # Init the train process
+        training_process = TrainingProcess(self.root)
+        training_process.create_training_tabs()
 
     def reset_to_initial_frame(self):
         """
@@ -68,8 +67,8 @@ class MainApp(tk.Tk):
         """
         Create the menu bar with dropdown options.
         """
-        menu_bar = tk.Menu(self)
-        self.config(menu=menu_bar)
+        menu_bar = tk.Menu(self.root)
+        self.root.config(menu=menu_bar)
 
         # File menu
         file_menu = tk.Menu(menu_bar, tearoff=0)
@@ -88,8 +87,9 @@ class MainApp(tk.Tk):
 
 
 def main():
-    app = MainApp()
-    app.mainloop()
+    root = tk.Tk()
+    MainApp(root)
+    root.mainloop()
 
 if __name__ == "__main__":
     main()

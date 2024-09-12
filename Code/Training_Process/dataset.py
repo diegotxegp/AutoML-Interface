@@ -20,26 +20,25 @@ class Dataset:
     def __repr__(self):
         return f"Dataset(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
 
-class DatasetManager(tk.Frame):
+class DatasetManager:
     def __init__(self, notebook, train_process):
-        super().__init__(notebook)
-
+        self.frame = tk.Frame(notebook)
         self.training_process = train_process  # Reference to train_process
         self.datasets = []
 
-        label = tk.Label(self, text="No project selected.")
+        label = tk.Label(self.frame, text="No project selected.")
         label.pack(pady=10)
 
     def load_datasets(self):
         """
         Load list of datasets for the selected project.
         """
-        for widget in self.winfo_children():
+        for widget in self.frame.winfo_children():
             widget.destroy()
 
         self.datasets.clear()
 
-        self.dataset_listbox = tk.Listbox(self)
+        self.dataset_listbox = tk.Listbox(self.frame)
         self.dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
         project = self.training_process.configuration.project
@@ -78,10 +77,10 @@ class DatasetManager(tk.Frame):
                                 self.datasets.append(dataset)
                                 self.dataset_listbox.insert(tk.END, dataset.name)
 
-        self.search_button = tk.Button(self, text="Add a dataset", command=self.add_dataset)
+        self.search_button = tk.Button(self.frame, text="Add a dataset", command=self.add_dataset)
         self.search_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
-        self.select_button = tk.Button(self, text="Select a dataset", command=self.select_dataset)
+        self.select_button = tk.Button(self.frame, text="Select a dataset", command=self.select_dataset)
         self.select_button.pack(side=tk.LEFT, padx=5, pady=5)
 
     def add_dataset(self):
@@ -140,7 +139,7 @@ class DatasetManager(tk.Frame):
         """
         Ask a description for the dataset.
         """
-        description_window = tk.Toplevel(self)
+        description_window = tk.Toplevel(self.frame)
         description_window.title("Dataset Description")
         description_window.geometry("400x300+100+100")  # Open description window at (100, 100) on the screen
 

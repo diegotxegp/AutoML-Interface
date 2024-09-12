@@ -1,13 +1,13 @@
 import tkinter as tk
 
-class Mode(tk.Frame):
+class Mode:
     def __init__(self, notebook, training_process):
-        super().__init__(notebook)
-
+        self.frame = tk.Frame(notebook)
         self.training_process = training_process
 
+    def draw_frame(self):
         # Button frame
-        button_frame = tk.Frame(self)
+        button_frame = tk.Frame(self.frame)
         button_frame.pack(expand=True)
 
         # Run AutoML automatically

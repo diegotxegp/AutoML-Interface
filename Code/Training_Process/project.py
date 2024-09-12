@@ -13,38 +13,25 @@ class Project:
         self.path = path
         self.timestamp = datetime.now()
 
-    def __repr__(self):
-        return f"Project(name={self.name}, description={self.description}, path={self.path}, timestamp={self.timestamp})"
-    
-    def get_name(self):
-        return self.name
-    
-    def get_description(self):
-        return self.description
-    
-    def get_path(self):
-        return self.path
-    
-    def get_timestamp(self):
-        return self.timestamp
-
-class ProjectManager(tk.Frame):
+class ProjectManager:
     def __init__(self, notebook, training_process):
-        super().__init__(notebook)
 
+        self.frame = tk.Frame(notebook)
         self.training_process = training_process  # Reference to train_process
         
         self.projects = []
 
-        self.project_listbox = tk.Listbox(self)
+    def draw_frame(self):
+
+        self.project_listbox = tk.Listbox(self.frame)
         self.project_listbox.pack(fill=tk.BOTH, expand=True)
         
         self.load_projects()
 
-        self.select_button = tk.Button(self, text="Select a project", command=self.select_project)
+        self.select_button = tk.Button(self.frame, text="Select a project", command=self.select_project)
         self.select_button.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.new_project_button = tk.Button(self, text="Create a new project", command=self.create_new_project)
+        self.new_project_button = tk.Button(self.frame, text="Create a new project", command=self.create_new_project)
         self.new_project_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
     def load_projects(self):
@@ -111,10 +98,10 @@ class ProjectManager(tk.Frame):
 
             # Show a message with details of the selected project
             messagebox.showinfo("Project Selected",
-                                f"Name: {selected_project.get_name()}\n"
-                                f"Description: {selected_project.get_description()}\n"
-                                f"Path: {selected_project.get_path()}\n"
-                                f"Timestamp: {selected_project.get_timestamp()}")
+                                f"Name: {selected_project.name}\n"
+                                f"Description: {selected_project.description}\n"
+                                f"Path: {selected_project.path}\n"
+                                f"Timestamp: {selected_project.timestamp}")
             
             self.training_process.enable_next_tab()
 

@@ -6,14 +6,14 @@ from utils import split_frame
 
 feature_classes = ["input", "output", ""]
 
-class Features(tk.Frame):
+class Features:
     def __init__(self, notebook, preprocess, configuration):
-        super().__init__(notebook)
+        self.frame = tk.Frame(notebook)
 
         self.preprocess = preprocess  # Reference to preprocess
         self.configuration = configuration # Reference to configuration
 
-        self.left_frame, self.right_frame = split_frame(self)
+        self.left_frame, self.right_frame = split_frame(self.frame)
 
         #self.features_frame(self.left_frame)
 
