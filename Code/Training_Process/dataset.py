@@ -29,6 +29,9 @@ class DatasetManager:
         label = tk.Label(self.frame, text="No project selected.")
         label.pack(pady=10)
 
+    def draw_frame(self):
+        self.load_datasets()
+
     def load_datasets(self):
         """
         Load list of datasets for the selected project.
@@ -123,7 +126,7 @@ class DatasetManager:
 
         if selected_index:
             selected_dataset = self.datasets[selected_index[0]]
-            self.training_process.set_dataset(selected_dataset)
+            self.training_process.configuration.dataset = selected_dataset
             
             messagebox.showinfo("Dataset Selected",
                                 f"Name: {selected_dataset.name}\n"

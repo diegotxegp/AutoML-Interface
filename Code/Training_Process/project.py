@@ -7,7 +7,7 @@ from datetime import datetime
 PROJECTS_DIR = "Projects"
 
 class Project:
-    def __init__(self, name, description, path, timestamp=None):
+    def __init__(self, name, description, path):
         self.name = name
         self.description = description
         self.path = path
@@ -94,7 +94,7 @@ class ProjectManager:
 
         if selected_index:
             selected_project = self.projects[selected_index[0]]
-            self.training_process.set_project(selected_project)
+            self.training_process.configuration.project = selected_project
 
             # Show a message with details of the selected project
             messagebox.showinfo("Project Selected",

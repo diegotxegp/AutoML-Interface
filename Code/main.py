@@ -51,7 +51,7 @@ class MainApp:
         self.initial_frame.pack_forget() # Hide the initial frame
 
         training_process = TrainingProcess(self.root)
-        training_process.create_training_tabs()
+        training_process.draw_training_tabs()
 
     def reset_to_initial_frame(self):
         """
