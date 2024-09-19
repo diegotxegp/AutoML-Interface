@@ -5,14 +5,14 @@ from master_table import separators
 from descriptions import separator_label_text
 from utils import split_frame
 
-class Separator(tk.Frame):
+class Separator:
     def __init__(self, notebook, preprocess, configuration):
-        super().__init__(notebook)
-
+        self.frame = tk.Frame(notebook)
         self.preprocess = preprocess  # Reference to preprocess
         self.configuration = configuration # Reference to configuration
 
-        self.left_frame, self.right_frame = split_frame(self)
+    def draw_frame(self):
+        self.left_frame, self.right_frame = split_frame(self.frame)
 
         self.separator_frame(self.left_frame)
         self.description_frame(self.right_frame)

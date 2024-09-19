@@ -1,57 +1,82 @@
 import tkinter as tk
 from tkinter import ttk
 
-from master_table import input_feature_types
+from master_table import features_io, input_feature_types, output_feature_types
 from utils import split_frame
-
-feature_classes = ["input", "output", ""]
 
 class Features:
     def __init__(self, notebook, preprocess, configuration):
-        self.frame = tk.Frame(notebook)
-
-        self.preprocess = preprocess  # Referencia a preprocess
-        self.configuration = configuration # Referencia a configuration
-
-        # Usando grid() para organizar left_frame y right_frame
-        self.left_frame = tk.Frame(self.frame)
-        self.left_frame.grid(row=0, column=0, sticky="nsew")
-
-        self.right_frame = tk.Frame(self.frame)
-        self.right_frame.grid(row=0, column=1, sticky="nsew")
-
-        self.frame.grid_columnconfigure(0, weight=1)  # Expandir columnas
-        self.frame.grid_columnconfigure(1, weight=1)
+        self.frame = tk.Frame(notebook) # Features frame
+        self.preprocess = preprocess  # Reference to preprocess
+        self.configuration = configuration # Reference to configuration
 
     def draw_frame(self):
+        self.left_frame, self.right_frame = split_frame(self.frame)
+
+        self.features_frame(self.left_frame)
+        self.description_frame(self.right_frame)
+
+    def features_frame(self, frame):
+        features = []
+
         row_counter = 1
 
-        # Para las características de entrada
+        # input features
         for i_f, type in self.configuration.input_features.items():
-            label = tk.Label(self.left_frame, text=i_f)
+            label = tk.Label(frame, text=i_f)
             label.grid(row=row_counter, column=0, padx=5, pady=5, sticky="ew")
 
-            feature_class = ttk.Combobox(self.left_frame, values=feature_classes)
-            feature_class.grid(row=row_counter, column=1, padx=5, pady=5, sticky="ew")
-            feature_class.set("input")
+            feature_io = ttk.Combobox(frame, values=features_io)
+            feature_io.grid(row=row_counter, column=1, padx=5, pady=5, sticky="ew")
+            feature_io.set("input")
 
-            feature_type = ttk.Combobox(self.left_frame, values=input_feature_types)
+            feature_type = ttk.Combobox(frame, values=input_feature_types)
             feature_type.grid(row=row_counter, column=2, padx=5, pady=5, sticky="ew")
             feature_type.set(type)
 
+            features.append((i_f, feature_io, feature_type))
+
             row_counter += 1
 
-        # Para las características de salida
-        for o_f, type in self.configuration.target.items():
-            label = tk.Label(self.left_frame, text=o_f)
+        # target (output features)
+        for target, type in self.configuration.target.items():
+            label = tk.Label(frame, text=target)
             label.grid(row=row_counter, column=0, padx=5, pady=5, sticky="ew")
 
-            feature_class = ttk.Combobox(self.left_frame, values=feature_classes)
-            feature_class.grid(row=row_counter, column=1, padx=5, pady=5, sticky="ew")
-            feature_class.set("output")
+            feature_io = ttk.Combobox(frame, values=feature_io)
+            feature_io.grid(row=row_counter, column=1, padx=5, pady=5, sticky="ew")
+            feature_io.set("output")
 
-            feature_type = ttk.Combobox(self.left_frame, values=input_feature_types)
+            feature_type = ttk.Combobox(frame, values=output_feature_types)
             feature_type.grid(row=row_counter, column=2, padx=5, pady=5, sticky="ew")
             feature_type.set(type)
 
+            features.append((target, feature_io, feature_type))
+
             row_counter += 1
+
+        # Usar 'grid' para colocar el botón Ok
+        ok_button = tk.Button(frame, text="Ok", command=lambda:self.ok(features))
+        ok_button.grid(row=row_counter, column=0, columnspan=3, padx=5, pady=5, sticky="ew")
+
+    def description_frame(self, frame):
+        description_label = tk.Label(frame, text="Help description")
+        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+    def feature_classifier(self, features):
+        input_features = {}
+        output_features = {}
+
+        for feature_name, feature_io, feature_type in features:
+            if feature_io.get() == "input":
+                input_features[feature_name] = feature_type.get()
+
+            if feature_io.get() == "output":
+                output_features[feature_name] = feature_type.get()
+
+        self.configuration.input_features = input_features
+        self.configuration.target = output_features
+
+    def ok(self, features):
+        self.feature_classifier(features)
+        self.preprocess.enable_next_tab()

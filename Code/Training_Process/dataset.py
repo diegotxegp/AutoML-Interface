@@ -26,9 +26,6 @@ class DatasetManager:
         self.training_process = train_process  # Reference to train_process
         self.datasets = []
 
-        label = tk.Label(self.frame, text="No project selected.")
-        label.pack(pady=10)
-
     def draw_frame(self):
         self.load_datasets()
 

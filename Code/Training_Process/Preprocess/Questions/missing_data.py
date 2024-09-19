@@ -5,14 +5,15 @@ from master_table import missing_data_options
 from descriptions import missing_data_label_text
 from utils import split_frame
 
-class MissingData(tk.Frame):
+class MissingData:
     def __init__(self, notebook, preprocess, configuration):
-        super().__init__(notebook)
+        self.frame = tk.Frame(notebook)
 
         self.preprocess = preprocess  # Reference to preprocess
         self.configuration = configuration # Reference to configuration
 
-        left_frame, right_frame = split_frame(self)
+    def draw_frame(self):
+        left_frame, right_frame = split_frame(self.frame)
 
         self.missing_data_frame(left_frame)
         self.description_frame(right_frame)

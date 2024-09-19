@@ -107,3 +107,32 @@ class Ludwig:
     
     def samples(self):
         return self.config["hyperopt"]["executor"]["num_samples"]
+    
+    def set_features(self, configuration):
+        """Set selected features into the config"""
+        input_features = []
+        output_features = []
+
+        for feature_name, feature_type in configuration.input_features.items():
+                feature = {
+                    "name": feature_name,
+                    "column": feature_name,
+                    "type": feature_type
+                }
+                input_features.append(feature)
+
+        for feature_name, feature_type in configuration.target.items():
+                feature = {
+                    "name": feature_name,
+                    "column": feature_name,
+                    "type": feature_type
+                }
+                output_features.append(feature)
+
+        self.config["input_features"] = input_features
+        self.config["output_features"] = output_features
+
+        self.config["trainer"]["validation_field"] = output_features[0]["name"]
+        self.config["hyperopt"]["output_feature"] = output_features[0]["name"]
+
+        self.target = self.config["output_features"][0]["name"]

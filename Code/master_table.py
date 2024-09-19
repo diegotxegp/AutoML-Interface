@@ -1,7 +1,7 @@
 ##### MASTER_TABLE.py
 
 training_tab_names = ["Info", "ProjectManager", "DatasetManager", "Mode", "Preprocess"]
-preprocess_tab_names = ["Features", "Separator", "MissingData", "TimeDependable", "Metric"]
+preprocess_tab_names = ["Features", "Separator", "MissingData"]
 
 # File formats
 file_formats=[
@@ -22,7 +22,7 @@ file_formats=[
             ]
 
 # Feature classes
-feature_classes = ["input", "output"]
+features_io = ["input", "output", ""]
 
 # Types available for input features
 input_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector", "audio", "date", "h3", "image", "timeseries"]
