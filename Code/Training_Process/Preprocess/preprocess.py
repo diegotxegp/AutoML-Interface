@@ -57,3 +57,6 @@ class Preprocess:
             self.notebook.select(next_tab)
 
             self.instance_list[next_tab].draw_frame()
+
+        else:
+            self.training_process.enable_next_tab()

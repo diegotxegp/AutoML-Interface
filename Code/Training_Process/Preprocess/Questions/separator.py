@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, PanedWindow
+from tkinter import ttk
 
 from master_table import separators
 from descriptions import separator_label_text
@@ -33,5 +33,5 @@ class Separator:
         description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
     def ok(self, value_separator):
-        self.configuration.set_separator(value_separator)
-        self.preprocess.enable_next_question_tab()
+        self.configuration.separator = value_separator
+        self.preprocess.enable_next_tab()

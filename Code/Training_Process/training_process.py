@@ -11,6 +11,7 @@ from Training_Process.mode import Mode
 from Training_Process.Preprocess.preprocess import Preprocess
 from Training_Process.summary import Summary
 from Training_Process.train import Train
+from Training_Process.evaluation import Evaluation
 
 from utils import enable_next_tab
 from master_table import training_tab_names

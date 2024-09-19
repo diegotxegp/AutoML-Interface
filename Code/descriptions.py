@@ -36,9 +36,7 @@ target_label_text = "Select which is the target"
 ## Input feature tab
 input_features_label_text = "Select which input features to train"
 
-# Separator
-
-# Missing data
+## Missing data
 missing_data_help_description = """
     fill_with_const: Replaces the missing value with a specific value specified with the fill_value parameter.
     fill_with_mode: Replaces the missing values with the most frequent value in the column.
@@ -47,6 +45,21 @@ missing_data_help_description = """
     bfill: Replaces the missing values with the next valid value from the subsequent rows of the input dataset.
     ffill: Replaces the missing values with the previous valid value from the preceding rows of the input dataset.
     drop_row: Removes the entire row from the dataset if this column is missing.
+"""
+
+# Summary
+summary_text_example = """
+Project: P1
+Dataset: dataset_37_diabetes_light.csv
+Samples: 1000
+Mode: semiautomatic
+Input features: preg, plas, pres, skin, insu, mass, pedi, age
+Target: class
+Separator: ,
+Missing data: fill_with_const
+Runtime: 7200 seconds
+Metric: accuracy
+Goal: minimize
 """
 
 interface_menu_about = "AutoML-Interface v2.0\nDeveloped by Diego\n2024"

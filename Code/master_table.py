@@ -1,6 +1,6 @@
 ##### MASTER_TABLE.py
 
-training_tab_names = ["Info", "ProjectManager", "DatasetManager", "Mode", "Preprocess"]
+training_tab_names = ["Info", "ProjectManager", "DatasetManager", "Mode", "Preprocess", "Summary", "Train", "Evaluation"]
 preprocess_tab_names = ["Features", "Separator", "MissingData"]
 
 # File formats
