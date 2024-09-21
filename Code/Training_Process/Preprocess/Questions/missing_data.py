@@ -34,7 +34,7 @@ class MissingData:
         description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
         # Text widget
-        info_box = scrolledtext.ScrolledText(self.frame, wrap=tk.WORD, width=50, height=15)
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
         info_box.pack(fill='both', expand=True)
 
         info_box.insert(tk.END, missing_data_help_description)

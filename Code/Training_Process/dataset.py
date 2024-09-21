@@ -1,12 +1,14 @@
 import os
 import tkinter as tk
-from tkinter import messagebox, filedialog, Text
+from tkinter import messagebox, filedialog, Text, scrolledtext
 import pandas as pd
 from datetime import datetime
 import shutil
 from pathlib import Path
 
 from master_table import file_formats
+from descriptions import dataset_manager_text
+from utils import split_frame
 
 class Dataset:
     def __init__(self, name, description, path, related_project):
@@ -27,18 +29,40 @@ class DatasetManager:
         self.datasets = []
 
     def draw_frame(self):
-        self.load_datasets()
+        left_frame, right_frame = split_frame(self.frame)
+        
+        self.dataset_manager_frame(left_frame)
+        self.description_frame(right_frame)
 
-    def load_datasets(self):
+    def dataset_manager_frame(self, frame):
+        self.load_datasets(frame)
+
+    def description_frame(self, frame):
+        description_label = tk.Label(frame, text="Help description")
+        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        # Text widget
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
+        info_box.pack(fill='both', expand=True)
+
+        info_box.insert(tk.END, dataset_manager_text)
+
+        # Text editing disabled
+        info_box.config(state=tk.DISABLED)
+
+    def load_datasets(self, frame):
         """
         Load list of datasets for the selected project.
         """
-        for widget in self.frame.winfo_children():
+        for widget in frame.winfo_children():
             widget.destroy()
 
         self.datasets.clear()
 
-        self.dataset_listbox = tk.Listbox(self.frame)
+        dataset_label = tk.Label(frame, text="Datasets")
+        dataset_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        self.dataset_listbox = tk.Listbox(frame)
         self.dataset_listbox.pack(fill=tk.BOTH, expand=True)
 
         project = self.training_process.configuration.project
@@ -77,10 +101,10 @@ class DatasetManager:
                                 self.datasets.append(dataset)
                                 self.dataset_listbox.insert(tk.END, dataset.name)
 
-        self.search_button = tk.Button(self.frame, text="Add a dataset", command=self.add_dataset)
+        self.search_button = tk.Button(frame, text="Add a dataset", command=self.add_dataset)
         self.search_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
-        self.select_button = tk.Button(self.frame, text="Select a dataset", command=self.select_dataset)
+        self.select_button = tk.Button(frame, text="Select a dataset", command=self.select_dataset)
         self.select_button.pack(side=tk.LEFT, padx=5, pady=5)
 
     def add_dataset(self):

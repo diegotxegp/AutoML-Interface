@@ -8,8 +8,9 @@ from ludwig.visualize import compare_performance
 from ludwig.visualize import confusion_matrix
 
 class Ludwig:
-    def __init__(self, dataset_path):
-        self.df = self.read_file(dataset_path) # Dataframe from dataset file path
+    def __init__(self, configuration):
+        self.configuration = configuration
+        self.df = self.read_file(configuration.dataset.path) # Dataframe from dataset file path
 
         columns = self.df.columns.tolist()
         self.target = columns[-1] # Last feature is commonly the target
@@ -90,30 +91,36 @@ class Ludwig:
 
         print("Config generated successfully")
 
+        self.input_features()
+        self.output_features()
+        self.metric()
+        self.runtime()
+        self.samples()
+
     def input_features(self):
-        input_feature_dict = {i_f["column"]: i_f['type'] for i_f in self.config["input_features"]}
-        return input_feature_dict
+        self.configuration.input_features = {i_f["column"]: i_f['type'] for i_f in self.config["input_features"]}
     
     def output_features(self):
-        output_feature_dict = {o_f["column"]: o_f['type'] for o_f in self.config["output_features"]}
-        return output_feature_dict
+        self.configuration.target = {o_f["column"]: o_f['type'] for o_f in self.config["output_features"]}
     
     def metric(self):
-        metric_dict = {self.config["hyperopt"]["metric"]:self.config["hyperopt"]["goal"]}
-        return metric_dict
+        self.configuration.metric = {self.config["hyperopt"]["metric"]:self.config["hyperopt"]["goal"]}
     
     def runtime(self):
-        return self.config["hyperopt"]["executor"]["time_budget_s"]
+        self.configuration.runtime = self.config["hyperopt"]["executor"]["time_budget_s"]
     
     def samples(self):
-        return self.config["hyperopt"]["executor"]["num_samples"]
+        self.configuration.samples = self.config["hyperopt"]["executor"]["num_samples"]
+
+    def configuration_to_config(self):
+        self.set_features()
     
-    def set_features(self, configuration):
+    def set_features(self):
         """Set selected features into the config"""
         input_features = []
         output_features = []
 
-        for feature_name, feature_type in configuration.input_features.items():
+        for feature_name, feature_type in self.configuration.input_features.items():
                 feature = {
                     "name": feature_name,
                     "column": feature_name,
@@ -121,7 +128,7 @@ class Ludwig:
                 }
                 input_features.append(feature)
 
-        for feature_name, feature_type in configuration.target.items():
+        for feature_name, feature_type in self.configuration.target.items():
                 feature = {
                     "name": feature_name,
                     "column": feature_name,

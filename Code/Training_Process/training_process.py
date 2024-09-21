@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from datetime import datetime
 
 from Training_Process.ludwigML import Ludwig
@@ -13,7 +13,7 @@ from Training_Process.summary import Summary
 from Training_Process.train import Train
 from Training_Process.evaluation import Evaluation
 
-from utils import enable_next_tab
+from utils import popup
 from master_table import training_tab_names
 
 class Configuration:
@@ -74,12 +74,9 @@ class TrainingProcess:
             self.instance_list[next_tab].draw_frame()
 
     def semiml(self):
-        ludwig = Ludwig(self.configuration.dataset.path)
+        popup("Autoconfig", "Generating a configuration file from the dataset")
+
+        ludwig = Ludwig(self.configuration)
         ludwig.autoconfig()
-        self.configuration.input_features = ludwig.input_features()
-        self.configuration.target = ludwig.output_features()
-        self.configuration.metric = ludwig.metric()
-        self.configuration.runtime = ludwig.runtime()
-        self.configuration.samples = ludwig.samples()
 
         self.enable_next_tab()

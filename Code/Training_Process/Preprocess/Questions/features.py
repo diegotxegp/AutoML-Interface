@@ -43,7 +43,7 @@ class Features:
             label = tk.Label(frame, text=target)
             label.grid(row=row_counter, column=0, padx=5, pady=5, sticky="ew")
 
-            feature_io = ttk.Combobox(frame, values=feature_io)
+            feature_io = ttk.Combobox(frame, values=features_io)
             feature_io.grid(row=row_counter, column=1, padx=5, pady=5, sticky="ew")
             feature_io.set("output")
 

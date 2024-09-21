@@ -1,7 +1,10 @@
 import os
 import tkinter as tk
-from tkinter import simpledialog, messagebox, Text
+from tkinter import simpledialog, messagebox, Text, scrolledtext
 from datetime import datetime
+
+from descriptions import project_manager_text
+from utils import split_frame
 
 # Path to the projects directory
 PROJECTS_DIR = "Projects"
@@ -22,17 +25,38 @@ class ProjectManager:
         self.projects = []
 
     def draw_frame(self):
+        left_frame, right_frame = split_frame(self.frame)
 
-        self.project_listbox = tk.Listbox(self.frame)
+        self.project_manager_frame(left_frame)
+        self.description_frame(right_frame)
+
+    def project_manager_frame(self, frame):
+        project_label = tk.Label(frame, text="Projects")
+        project_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        self.project_listbox = tk.Listbox(frame)
         self.project_listbox.pack(fill=tk.BOTH, expand=True)
         
         self.load_projects()
 
-        self.select_button = tk.Button(self.frame, text="Select a project", command=self.select_project)
+        self.select_button = tk.Button(frame, text="Select a project", command=self.select_project)
         self.select_button.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.new_project_button = tk.Button(self.frame, text="Create a new project", command=self.create_new_project)
+        self.new_project_button = tk.Button(frame, text="Create a new project", command=self.create_new_project)
         self.new_project_button.pack(side=tk.RIGHT, padx=5, pady=5)
+
+    def description_frame(self, frame):
+        description_label = tk.Label(frame, text="Help description")
+        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        # Text widget
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
+        info_box.pack(fill='both', expand=True)
+
+        info_box.insert(tk.END, project_manager_text)
+
+        # Text editing disabled
+        info_box.config(state=tk.DISABLED)
 
     def load_projects(self):
         """
