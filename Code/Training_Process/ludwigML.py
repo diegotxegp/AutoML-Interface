@@ -3,6 +3,7 @@ from tkinter import messagebox
 import pandas as pd
 
 from ludwig.automl import auto_train, create_auto_config
+from ludwig.api import LudwigModel
 from ludwig.utils.dataset_utils import get_repeatable_train_val_test_split
 from ludwig.visualize import compare_performance
 from ludwig.visualize import confusion_matrix
@@ -97,6 +98,58 @@ class Ludwig:
         self.runtime()
         self.samples()
 
+    def train(self):
+        """
+        Train the model.
+        """
+        self.model = LudwigModel(self.config)
+        self.model.train(dataset=self.df)
+
+    def compare_performance(self):
+        eval_stats, predictions, output_directory = self.model.evaluate(
+            self.split_df,
+            split="full",
+            collect_predictions=True,
+            collect_overall_stats=True,
+            skip_save_eval_stats=False,
+            skip_save_predictions=False,
+            output_directory="results/test_results",
+            return_type="dict"
+        )
+
+        from ludwig.visualize import compare_performance
+        compare_performance(
+            eval_stats,
+            output_feature_name=self.target,
+            model_names=None,
+            output_directory=None,
+            file_format='pdf'
+        )
+
+    def confusion_matrix(self):
+        eval_stats, predictions, output_directory = self.model.evaluate(
+            self.split_df,
+            split="full",
+            collect_predictions=True,
+            collect_overall_stats=True,
+            skip_save_eval_stats=False,
+            skip_save_predictions=False,
+            output_directory="results/test_results",
+            return_type="dict"
+        )
+
+        from ludwig.visualize import confusion_matrix
+        confusion_matrix(
+            [eval_stats],
+            self.model.training_set_metadata,
+            output_feature_name = self.target,
+            top_n_classes = [10],
+            normalize=True,
+            model_names=None,
+            output_directory=None,
+            file_format='pdf'
+        )
+
     def input_features(self):
         self.configuration.input_features = {i_f["column"]: i_f['type'] for i_f in self.config["input_features"]}
     
@@ -114,6 +167,7 @@ class Ludwig:
 
     def configuration_to_config(self):
         self.set_features()
+        self.set_missing_data()
     
     def set_features(self):
         """Set selected features into the config"""
@@ -143,3 +197,6 @@ class Ludwig:
         self.config["hyperopt"]["output_feature"] = output_features[0]["name"]
 
         self.target = self.config["output_features"][0]["name"]
+
+    def set_missing_data(self):
+        self.config["preprocessing"]["missing_value_strategy"] = self.configuration.missing_data

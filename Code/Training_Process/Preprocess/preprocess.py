@@ -7,7 +7,6 @@ from Training_Process.Preprocess.Questions.features import Features
 from Training_Process.Preprocess.Questions.timedependable import TimeDependable
 from Training_Process.Preprocess.Questions.metric import Metric
 
-from utils import enable_next_tab
 from master_table import preprocess_tab_names
 
 class Preprocess:

@@ -68,4 +68,4 @@ Metric: accuracy
 Goal: minimize
 """
 
-interface_menu_about = "AutoML-Interface v2.0\nDeveloped by Diego\n2024"
+interface_menu_about = "AutoML-Interface v2.0\nDeveloped by Diego\n(2024)"

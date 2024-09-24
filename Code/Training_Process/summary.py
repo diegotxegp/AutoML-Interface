@@ -1,13 +1,13 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-from descriptions import summary_text_example
 from utils import split_frame
 
 class Summary:
     def __init__(self, notebook, training_process):
         self.frame = tk.Frame(notebook)
         self.training_process = training_process
+        self.configuration = self.training_process.configuration
 
     def draw_frame(self):
         left_frame, right_frame = split_frame(self.frame)
@@ -16,11 +16,21 @@ class Summary:
         self.description_frame(right_frame)
 
     def summary_frame(self, frame):
+        summary_text = (f"Project: {self.configuration.project.path}\n"
+                f"Dataset: {self.configuration.dataset.path}\n"
+                f"Samples: {self.configuration.samples}\n"
+                f"Input features: {self.configuration.input_features}\n"
+                f"Target: {self.configuration.target}\n"
+                f"Separator: {self.configuration.separator}\n"
+                f"Missing data: {self.configuration.missing_data}\n"
+                f"Runtime: {self.configuration.runtime}\n"
+                f"Metric: {self.configuration.metric}\n")
+
         # Text widget
-        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=30, height=15)
         info_box.pack(fill='both', expand=True)
 
-        info_box.insert(tk.END, summary_text_example)
+        info_box.insert(tk.END, summary_text)
 
         # Text editing disabled
         info_box.config(state=tk.DISABLED)

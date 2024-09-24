@@ -1,7 +1,10 @@
 ##### MASTER_TABLE.py
 
+automl_framework = "Ludwig" # Framework
+#, "AutoGluon", "AutoKeras", "H2OAutoML", "TPOT", "LightGBM", "CatBoost", "Sklearn"]
 training_tab_names = ["Info", "ProjectManager", "DatasetManager", "Mode", "Preprocess", "Summary", "Train", "Evaluation"]
 preprocess_tab_names = ["Features", "Separator", "MissingData"]
+evaluation_tab_names = ["ComparePerformance", "ConfusionMatrix"]
 
 # File formats
 file_formats=[

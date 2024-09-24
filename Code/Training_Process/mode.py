@@ -15,5 +15,5 @@ class Mode:
         automl_button.pack(pady=(0, 10))
 
         # Generate a configuration file from dataset
-        semiml_button = tk.Button(button_frame, text="Semiautomatic ML", command=lambda:self.training_process.semiml(), width=20, height=2)
+        semiml_button = tk.Button(button_frame, text="Semiautomatic ML", command=lambda:self.training_process.autoconfig(), width=20, height=2)
         semiml_button.pack(pady=(10, 0))

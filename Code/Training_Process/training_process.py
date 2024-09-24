@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
@@ -14,7 +15,7 @@ from Training_Process.train import Train
 from Training_Process.evaluation import Evaluation
 
 from utils import popup
-from master_table import training_tab_names
+from master_table import training_tab_names, automl_framework
 
 class Configuration:
     def __init__(self):        
@@ -35,6 +36,7 @@ class TrainingProcess:
         self.dataset_manager = None # Hacer que dataset_manager se ejecute cuando detecte que cambia a su pestaña
         self.configuration = Configuration()
         self.instance_list = []
+        self.automl_framework = None
 
     def draw_training_tabs(self):
         """
@@ -73,10 +75,31 @@ class TrainingProcess:
 
             self.instance_list[next_tab].draw_frame()
 
-    def semiml(self):
-        popup("Autoconfig", "Generating a configuration file from the dataset")
+    def autoconfig(self):
+        """
+        Generate a configuration file from the dataset
+        """
+        self.automl_framework = globals()[automl_framework](self.configuration)
+        self.automl_framework.autoconfig()
 
-        ludwig = Ludwig(self.configuration)
-        ludwig.autoconfig()
+        print(self.automl_framework.config)
 
         self.enable_next_tab()
+
+    def train(self):
+        self.automl_framework.train()
+
+        model_dir = os.path.dirname(self.configuration.dataset.path)+"/model"
+
+        if not os.path.exists(model_dir):
+            os.makedirs(model_dir)
+        self.automl_framework.model.save(model_dir)
+        self.automl_framework.model.save_config(model_dir)
+
+        self.enable_next_tab()
+
+    def compare_performance(self):
+        self.automl_framework.compare_performance()
+
+    def confusion_matrix(self):
+        self.automl_framework.confusion_matrix()

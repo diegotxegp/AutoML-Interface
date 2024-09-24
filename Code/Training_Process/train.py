@@ -23,7 +23,7 @@ class Train:
         button_frame.pack(expand=True)  # Expand to fill the available space
 
         # Create the 'Train' button and add it to the button_frame
-        train_button = tk.Button(button_frame, text="Train", command=self.training_process.enable_next_tab, width=20, height=2)
+        train_button = tk.Button(button_frame, text="Train", command=self.train, width=20, height=2)
         train_button.pack(pady=(0, 10))  # Add some space below
 
     def description_frame(self, frame):
@@ -31,7 +31,4 @@ class Train:
         description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
     def train(self):
-        df = self.configuration.get_dataset().read_file()
-        target = self.configuration.get_target()
-
-        model = Ludwig.automl(df, "class")
+        self.training_process.train()
