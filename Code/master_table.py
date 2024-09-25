@@ -1,40 +1,32 @@
 ##### MASTER_TABLE.py
 
-automl_framework = "Ludwig" # Framework
-#, "AutoGluon", "AutoKeras", "H2OAutoML", "TPOT", "LightGBM", "CatBoost", "Sklearn"]
+from Ludwig.ludwig_master_table import file_formats, input_feature_types, output_feature_types, separators, missing_data_options, metrics
+
+automl_framework = "Ludwig" # Framework to use
+
 training_tab_names = ["Info", "ProjectManager", "DatasetManager", "Mode", "Preprocess", "Summary", "Train", "Evaluation"]
-preprocess_tab_names = ["Features", "Separator", "MissingData"]
+preprocess_tab_names = ["Features", "Separator", "MissingData", "Metric"]
 evaluation_tab_names = ["ComparePerformance", "ConfusionMatrix"]
 
 # File formats
-file_formats=[
-                ("CSV files", "*.csv"),
-                ("Excel files", "*.xlsx;*.xls"),
-                ("Feather files", "*.feather"),
-                ("FWF files", "*.fwf"),
-                ("HDF5 files", "*.h5;*.hdf5"),
-                ("HTML files", "*.html;*.htm"),
-                ("JSON files", "*.json;*.jsonl"),
-                ("Parquet files", "*.parquet"),
-                ("Pickle files", "*.pkl;*.pickle"),
-                ("SAS files", "*.sas7bdat;*.xpt"),
-                ("SPSS files", "*.sav"),
-                ("Stata files", "*.dta"),
-                ("TSV files", "*.tsv"),
-                ("All files", "*.*")
-            ]
+file_formats=file_formats
 
 # Feature classes
 features_io = ["input", "output", ""]
 
 # Types available for input features
-input_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector", "audio", "date", "h3", "image", "timeseries"]
+input_feature_types = input_feature_types
 
 # Types available for output features
-output_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector"]
+output_feature_types = output_feature_types
 
 # Punctuation marks to separate columns in datasets
-separators = [",", ";", "\\"]
+separators = separators
 
 # Options to treat missing data
-missing_data_options = ["fill_with_const", "fill_with_mode", "fill_with_mean", "fill_with_false", "bfill", "ffill", "drop_row"]
+missing_data_options = missing_data_options
+
+# Options to select a metric
+metrics = metrics
+
+goals = ["maximize", "minimize"]

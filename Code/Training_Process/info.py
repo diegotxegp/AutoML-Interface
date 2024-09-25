@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-from descriptions import info_text
-from utils import enable_next_tab
+from descriptions import training_process_info_text
 
 class Info:
     def __init__(self, notebook, training_process):
@@ -16,7 +15,7 @@ class Info:
         text_widget = scrolledtext.ScrolledText(self.frame, wrap=tk.WORD, width=50, height=15)
         text_widget.pack(fill='both', expand=True)
 
-        text_widget.insert(tk.END, info_text)
+        text_widget.insert(tk.END, training_process_info_text)
 
         # Text editing disabled
         text_widget.config(state=tk.DISABLED)

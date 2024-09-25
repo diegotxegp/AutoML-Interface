@@ -1,21 +1,53 @@
 import tkinter as tk
 from tkinter import ttk
 
-from master_table import separators
+from descriptions import metric_label_text
+from master_table import metrics, goals
+from utils import split_frame
 
 class Metric:
-    def __init__(self, notebook, preprocess):
+    def __init__(self, notebook, preprocess, configuration):
         self.frame = tk.Frame(notebook)
-        self.notebook = notebook
         self.preprocess = preprocess  # Reference to preprocess
+        self.configuration = configuration # Reference to configuration
 
-        label_separator = tk.Label(self.frame, text="Which separator among columns does your data use?")
-        label_separator.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+    def draw_frame(self):
+        self.left_frame, self.right_frame = split_frame(self.frame)
 
-        value_separator = ttk.Combobox(self.frame, values=separators)
-        value_separator.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
-        value_separator.set(separators[0])
+        self.metric_frame(self.left_frame)
+        self.description_frame(self.right_frame)
 
-        self.ok_button = tk.Button(self.frame, text="Ok", command=lambda:self.preprocess.enable_next_question_tab())
-        self.ok_button.pack(side=tk.BOTTOM, padx=5, pady=5)
+    def metric_frame(self, frame):
+        label = tk.Label(frame, text=metric_label_text)
+        label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
+        # Metric
+        metric_label = tk.Label(frame, text="Select metric:")
+        metric_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        feature_type = []
+        for target, type in self.configuration.target.items():
+            feature_type = type
+
+        metric = ttk.Combobox(frame, values=metrics.get(feature_type))
+        metric.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+        metric.set(metrics.get(feature_type)[0])
+
+        # Goal
+        goal_label = tk.Label(frame, text="Select goal:")
+        goal_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        goal = ttk.Combobox(frame, values=goals)
+        goal.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+        goal.set(goals[0])
+
+        ok_button = tk.Button(frame, text="Ok", command=lambda:self.ok(metric.get(), goal.get()))
+        ok_button.pack(side=tk.BOTTOM, padx=5, pady=5)
+
+    def description_frame(self, frame):
+        description_label = tk.Label(frame, text="Help description")
+        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+    def ok(self, metric, goal):
+        self.configuration.metric = {metric: goal}
+        self.preprocess.enable_next_tab()

@@ -7,7 +7,7 @@ welcome_text = "This tool allows you to train models and make predictions easily
 # INFO TAB
 
 ## Text with information about the tool
-info_text = """
+training_process_info_text = """
 You have just chosen to train a model. Follow the next tabs to continue with the process of training.
 
 1- Create a new project to allocate all the models in there. Else, select one already created.
@@ -25,8 +25,15 @@ AFTER READING THIS, PRESS "OK" TO CONTINUE
 project_manager_text = "You must create a project to allocate all the models in there. Else, select one already created."
 # Dataset tab
 dataset_manager_text = "You must add a dataset to train. One copy of this will be saved in the project directory."
-# Preprocess tab.
 
+# Mode tab
+mode_description = """
+    * Automatic ML: Automatically trains a model.
+
+    * Semiautomatic ML: Generates a configuration file from the dataset.
+"""
+
+# Preprocess tab.
 ## Separator tab.
 separator_label_text = "Which separator among columns does your data use?"
 ## Missing data tab
@@ -35,6 +42,18 @@ missing_data_label_text = "How to treat missing data?"
 target_label_text = "Select which is the target"
 ## Input feature tab
 input_features_label_text = "Select which input features to train"
+## Metric tab
+metric_label_text = "Select a metric to evaluate the model"
+## Goal tab
+goal_label_text = "Select a goal to optimize the model"
+
+## Separator
+separator_help_description = """
+    * comma: Comma separated values.
+    * semicolon: Semicolon separated values.
+    * tab: Tab separated values.
+    * space: Space separated values.
+"""
 
 ## Missing data
 missing_data_help_description = """
@@ -53,19 +72,39 @@ missing_data_help_description = """
     * drop_row: Removes the entire row from the dataset if this column is missing.
 """
 
-# Summary
-summary_text_example = """
-Project: P1
-Dataset: dataset_37_diabetes_light.csv
-Samples: 1000
-Mode: semiautomatic
-Input features: preg, plas, pres, skin, insu, mass, pedi, age
-Target: class
-Separator: ,
-Missing data: fill_with_const
-Runtime: 7200 seconds
-Metric: accuracy
-Goal: minimize
+# Summary tab
+summary_description = """
+    * Project: The name of the project.
+
+    * Dataset: The name of the dataset.
+
+    * Samples: The number of samples in the dataset.
+
+    * Input features: The input features of the model.
+
+    * Target: The target feature of the model.
+
+    * Separator: The separator used in the dataset.
+
+    * Missing data: The missing data strategy used in the dataset.
+
+    * Runtime: The maximum runtime of the model.
+
+    * Metric: The metric used to evaluate the model.
+
+    * Goal: The goal of the metric.
+"""
+
+# Train tab
+train_description = """
+    * Train: Trains the model.
+"""
+
+# Evaluation tab
+evaluation_description = """
+    * Compare Performance: Compares the performance of the model with the original dataset.
+
+    * Confusion Matrix: Generates a confusion matrix to evaluate the model.
 """
 
 interface_menu_about = "AutoML-Interface v2.0\nDeveloped by Diego\n(2024)"

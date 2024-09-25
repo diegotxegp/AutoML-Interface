@@ -117,7 +117,6 @@ class Ludwig:
             return_type="dict"
         )
 
-        from ludwig.visualize import compare_performance
         compare_performance(
             eval_stats,
             output_feature_name=self.target,
@@ -137,8 +136,7 @@ class Ludwig:
             output_directory="results/test_results",
             return_type="dict"
         )
-
-        from ludwig.visualize import confusion_matrix
+        
         confusion_matrix(
             [eval_stats],
             self.model.training_set_metadata,

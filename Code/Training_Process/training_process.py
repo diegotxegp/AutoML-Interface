@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 
-from Training_Process.ludwigML import Ludwig
+from Ludwig.ludwig import Ludwig
 
 from Training_Process.info import Info
 from Training_Process.project import ProjectManager

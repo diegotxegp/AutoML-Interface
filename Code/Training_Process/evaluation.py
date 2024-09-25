@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import scrolledtext
 
 from master_table import preprocess_tab_names
-from descriptions import info_text
+from descriptions import evaluation_description
 from utils import split_frame
 
 class Evaluation:
@@ -60,3 +60,12 @@ class Evaluation:
         # Label descriptivo
         description_label = tk.Label(frame, text="Help description")
         description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        # Text widget
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
+        info_box.pack(fill='both', expand=True)
+
+        info_box.insert(tk.END, evaluation_description)
+
+        # Text editing disabled
+        info_box.config(state=tk.DISABLED)

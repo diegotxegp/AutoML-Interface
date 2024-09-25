@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from Training_Process.ludwigML import Ludwig
+from Ludwig.ludwig import Ludwig
 
 from utils import split_frame
 

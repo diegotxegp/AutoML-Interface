@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
+from descriptions import summary_description
 from utils import split_frame
 
 class Summary:
@@ -16,6 +17,9 @@ class Summary:
         self.description_frame(right_frame)
 
     def summary_frame(self, frame):
+        dataset_label = tk.Label(frame, text="Revise the chosen values before training")
+        dataset_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
         summary_text = (f"Project: {self.configuration.project.path}\n"
                 f"Dataset: {self.configuration.dataset.path}\n"
                 f"Samples: {self.configuration.samples}\n"
@@ -41,3 +45,12 @@ class Summary:
     def description_frame(self, frame):
         description_label = tk.Label(frame, text="Help description")
         description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        # Text widget
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
+        info_box.pack(fill='both', expand=True)
+
+        info_box.insert(tk.END, summary_description)
+
+        # Text editing disabled
+        info_box.config(state=tk.DISABLED)
