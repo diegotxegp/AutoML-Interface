@@ -1,8 +1,8 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, scrolledtext
 
 from master_table import separators
-from descriptions import separator_label_text
+from descriptions import separator_label_text, separator_help_description
 from utils import split_frame
 
 class Separator:
@@ -32,6 +32,15 @@ class Separator:
         description_label = tk.Label(frame, text="Help description")
         description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
-    def ok(self, value_separator):
-        self.configuration.separator = value_separator
+        # Text widget
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
+        info_box.pack(fill='both', expand=True)
+
+        info_box.insert(tk.END, separator_help_description)
+
+        # Text editing disabled
+        info_box.config(state=tk.DISABLED)
+
+    def ok(self, separator_value): 
+        self.configuration.separator = separator_value
         self.preprocess.enable_next_tab()

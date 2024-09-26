@@ -46,15 +46,3 @@ def split_frame(frame):
     right_frame.grid(row=0, column=2, sticky="nsew")
 
     return left_frame, right_frame
-
-def popup(title, text):
-    # Crear una nueva ventana emergente (Toplevel)
-    popup = tk.Toplevel()
-    popup.title(title)
-    
-    # Etiqueta con el mensaje
-    mensaje = tk.Label(popup, text=text)
-    mensaje.pack(padx=20, pady=20)
-    
-    # Configurar para que la ventana emergente se cierre automáticamente después de 3 segundos
-    popup.after(3000, popup.destroy)

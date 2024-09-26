@@ -5,7 +5,7 @@ from Ludwig.ludwig_master_table import file_formats, input_feature_types, output
 automl_framework = "Ludwig" # Framework to use
 
 training_tab_names = ["Info", "ProjectManager", "DatasetManager", "Mode", "Preprocess", "Summary", "Train", "Evaluation"]
-preprocess_tab_names = ["Features", "Separator", "MissingData", "Metric"]
+preprocess_tab_names = ["Separator", "MissingData", "Features", "Runtime", "Metric", "TimeDependable"]
 evaluation_tab_names = ["ComparePerformance", "ConfusionMatrix"]
 
 # File formats
@@ -30,3 +30,6 @@ missing_data_options = missing_data_options
 metrics = metrics
 
 goals = ["maximize", "minimize"]
+
+# Timedependable
+time_dependable_options = ["No", "Yes"]

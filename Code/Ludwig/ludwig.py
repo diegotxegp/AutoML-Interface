@@ -55,7 +55,7 @@ class Ludwig:
 
         print("Dataset loaded successfully")
 
-    def automl(self, dataset_path):
+    def auto_train(self):
         """
         Automatically trains a model.
         """

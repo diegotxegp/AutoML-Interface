@@ -7,7 +7,7 @@ import shutil
 from pathlib import Path
 
 from master_table import file_formats
-from descriptions import dataset_manager_text
+from descriptions import dataset_label_text, dataset_help_description
 from utils import split_frame
 
 class Dataset:
@@ -45,7 +45,7 @@ class DatasetManager:
         info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
         info_box.pack(fill='both', expand=True)
 
-        info_box.insert(tk.END, dataset_manager_text)
+        info_box.insert(tk.END, dataset_help_description)
 
         # Text editing disabled
         info_box.config(state=tk.DISABLED)
@@ -59,7 +59,7 @@ class DatasetManager:
 
         self.datasets.clear()
 
-        dataset_label = tk.Label(frame, text="Datasets")
+        dataset_label = tk.Label(frame, text=dataset_label_text)
         dataset_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
         self.dataset_listbox = tk.Listbox(frame)

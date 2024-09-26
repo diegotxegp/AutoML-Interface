@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import simpledialog, messagebox, Text, scrolledtext
 from datetime import datetime
 
-from descriptions import project_manager_text
+from descriptions import project_label_text, project_help_description
 from utils import split_frame
 
 # Path to the projects directory
@@ -31,7 +31,7 @@ class ProjectManager:
         self.description_frame(right_frame)
 
     def project_manager_frame(self, frame):
-        project_label = tk.Label(frame, text="Projects")
+        project_label = tk.Label(frame, text=project_label_text)
         project_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
         self.project_listbox = tk.Listbox(frame)
@@ -53,7 +53,7 @@ class ProjectManager:
         info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
         info_box.pack(fill='both', expand=True)
 
-        info_box.insert(tk.END, project_manager_text)
+        info_box.insert(tk.END, project_help_description)
 
         # Text editing disabled
         info_box.config(state=tk.DISABLED)

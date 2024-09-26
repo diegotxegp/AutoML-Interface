@@ -1,7 +1,8 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, scrolledtext
 
 from master_table import features_io, input_feature_types, output_feature_types
+from descriptions import features_help_description, features_label_text
 from utils import split_frame
 
 class Features:
@@ -20,6 +21,9 @@ class Features:
         features = []
 
         row_counter = 1
+
+        title_label = tk.Label(frame, text=features_label_text)
+        title_label.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky="ew")
 
         # input features
         for i_f, type in self.configuration.input_features.items():
@@ -55,13 +59,12 @@ class Features:
 
             row_counter += 1
 
-        # Usar 'grid' para colocar el botón Ok
         ok_button = tk.Button(frame, text="Ok", command=lambda:self.ok(features))
         ok_button.grid(row=row_counter, column=0, columnspan=3, padx=5, pady=5, sticky="ew")
 
     def description_frame(self, frame):
         description_label = tk.Label(frame, text="Help description")
-        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)        
 
     def feature_classifier(self, features):
         input_features = {}

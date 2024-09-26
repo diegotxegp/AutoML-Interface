@@ -23,7 +23,7 @@ input_feature_types = ["binary", "number", "category", "bag", "set", "sequence",
 output_feature_types = ["binary", "number", "category", "bag", "set", "sequence", "text", "vector"]
 
 # Punctuation marks to separate columns in datasets
-separators = [",", ";", "\\"]
+separators = ["comma", "semicolon", "backslash"]
 
 # Options to treat missing data
 missing_data_options = ["fill_with_const", "fill_with_mode", "fill_with_mean", "fill_with_false", "bfill", "ffill", "drop_row"]

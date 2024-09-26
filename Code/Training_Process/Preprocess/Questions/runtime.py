@@ -1,11 +1,10 @@
 import tkinter as tk
-from tkinter import ttk, scrolledtext
+from tkinter import scrolledtext
 
-from master_table import time_dependable_options
-from descriptions import timedependable_label_text, timedependable_help_description
+from descriptions import runtime_label_text, runtime_help_description
 from utils import split_frame
 
-class TimeDependable:
+class Runtime:
     def __init__(self, notebook, preprocess, configuration):
         self.frame = tk.Frame(notebook)
         self.preprocess = preprocess  # Reference to preprocess
@@ -14,18 +13,19 @@ class TimeDependable:
     def draw_frame(self):
         self.left_frame, self.right_frame = split_frame(self.frame)
 
-        self.timedependable_frame(self.left_frame)
+        self.runtime_frame(self.left_frame)
         self.description_frame(self.right_frame)
 
-    def timedependable_frame(self, frame):
-        label = tk.Label(frame, text=timedependable_label_text)
+    def runtime_frame(self, frame):
+        label = tk.Label(frame, text=runtime_label_text)
         label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+        
+        value = tk.Entry(frame)
+        value.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+        value.insert(0, self.configuration.runtime)
 
-        combo = ttk.Combobox(frame, values=time_dependable_options)
-        combo.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
-        combo.set(time_dependable_options[0])
 
-        ok_button = tk.Button(frame, text="Ok", command=lambda:self.ok(combo.get()))
+        ok_button = tk.Button(frame, text="Ok", command=lambda:self.ok(value.get()))
         ok_button.pack(side=tk.BOTTOM, padx=5, pady=5)
 
     def description_frame(self, frame):
@@ -36,11 +36,11 @@ class TimeDependable:
         info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
         info_box.pack(fill='both', expand=True)
 
-        info_box.insert(tk.END, timedependable_help_description)
+        info_box.insert(tk.END, runtime_help_description)
 
         # Text editing disabled
         info_box.config(state=tk.DISABLED)
 
-    def ok(self, timedependable_value): 
-        self.configuration.timedependable = timedependable_value
+    def ok(self, runtime_Value):
+        self.configuration.runtime = runtime_Value
         self.preprocess.enable_next_tab()

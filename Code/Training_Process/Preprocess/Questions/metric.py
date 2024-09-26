@@ -22,7 +22,7 @@ class Metric:
         label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
         # Metric
-        metric_label = tk.Label(frame, text="Select metric:")
+        metric_label = tk.Label(frame, text="Metric:")
         metric_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
         feature_type = []
@@ -34,7 +34,7 @@ class Metric:
         metric.set(metrics.get(feature_type)[0])
 
         # Goal
-        goal_label = tk.Label(frame, text="Select goal:")
+        goal_label = tk.Label(frame, text="Goal:")
         goal_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
 
         goal = ttk.Combobox(frame, values=goals)

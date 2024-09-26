@@ -22,9 +22,12 @@ AFTER READING THIS, PRESS "OK" TO CONTINUE
 """
 
 # Project tab
-project_manager_text = "You must create a project to allocate all the models in there. Else, select one already created."
+project_label_text = "Select a project"
+project_help_description = "You must create a project to allocate all the models in there. Else, select one already created."
+
 # Dataset tab
-dataset_manager_text = "You must add a dataset to train. One copy of this will be saved in the project directory."
+dataset_label_text = "Select a dataset"
+dataset_help_description = "You must add a dataset to train. One copy of this will be saved in the project directory."
 
 # Mode tab
 mode_description = """
@@ -49,10 +52,9 @@ goal_label_text = "Select a goal to optimize the model"
 
 ## Separator
 separator_help_description = """
-    * comma: Comma separated values.
-    * semicolon: Semicolon separated values.
-    * tab: Tab separated values.
-    * space: Space separated values.
+    * comma: Comma separated columns.
+    * semicolon: Semicolon separated columns.
+    * backslash: Backslash separated columns.
 """
 
 ## Missing data
@@ -70,6 +72,54 @@ missing_data_help_description = """
     * ffill: Replaces the missing values with the previous valid value from the preceding rows of the input dataset.
 
     * drop_row: Removes the entire row from the dataset if this column is missing.
+"""
+
+## Features
+features_label_text = "Modify the features to train"
+features_help_description = """
+    * input: Input features.
+    * output: Output features.
+"""
+
+## Target
+target_help_description = """
+    * binary: Binary target.
+    * number: Numerical target.
+    * category: Categorical target.
+    * bag: Bag of categorical target.
+    * set: Set of categorical target.
+    * sequence: Sequence of categorical target.
+    * text: Text target.
+    * vector: Vector target.
+    * audio: Audio target.
+    * date: Date target.
+    * h3: H3 target.
+    * image: Image target.
+    * timeseries: Time series target.
+"""
+
+## Runtime
+runtime_label_text = "Choose how many seconds to run the training process"
+runtime_help_description = """
+    * The maximum runtime of the model.
+"""
+
+## Metric
+metric_label_text = "Select a metric to evaluate the model"
+metric_description = """
+    * accuracy: The accuracy of the model.
+
+    * hits_at_k: The hits at k of the model.
+
+    * loss: The loss of the model.
+    """
+
+## Time dependable
+timedependable_label_text = "Is your dataset a time-dependable dataset?"
+timedependable_help_description = """
+    * No: This dataset does not depend on time.
+
+    * Yes: This dataset depends on time.
 """
 
 # Summary tab

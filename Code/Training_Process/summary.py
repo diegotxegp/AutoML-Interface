@@ -28,7 +28,9 @@ class Summary:
                 f"Separator: {self.configuration.separator}\n"
                 f"Missing data: {self.configuration.missing_data}\n"
                 f"Runtime: {self.configuration.runtime}\n"
-                f"Metric: {self.configuration.metric}\n")
+                f"Metric: {self.configuration.metric}\n"
+                f"Metric: {self.configuration.timedependable}\n"
+                )
 
         # Text widget
         info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=30, height=15)

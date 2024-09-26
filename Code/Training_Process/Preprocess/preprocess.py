@@ -4,6 +4,7 @@ from tkinter import ttk
 from Training_Process.Preprocess.Questions.separator import Separator
 from Training_Process.Preprocess.Questions.missing_data import MissingData
 from Training_Process.Preprocess.Questions.features import Features
+from Training_Process.Preprocess.Questions.runtime import Runtime
 from Training_Process.Preprocess.Questions.timedependable import TimeDependable
 from Training_Process.Preprocess.Questions.metric import Metric
 

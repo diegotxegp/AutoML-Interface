@@ -24,7 +24,7 @@ class Mode:
         button_frame.pack(expand=True)
 
         # Run AutoML automatically
-        automl_button = tk.Button(button_frame, text="Automatic ML", command=self.training_process, width=20, height=2)
+        automl_button = tk.Button(button_frame, text="Automatic ML", command=self.training_process.auto_train, width=20, height=2)
         automl_button.pack(pady=(0, 10))
 
         # Generate a configuration file from dataset
