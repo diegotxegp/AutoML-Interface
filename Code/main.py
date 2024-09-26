@@ -1,128 +1,81 @@
-# File: Code/main.py
-
-import os
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox, font
 
-from Projects.projects import ProjectManager
-from Datasets.datasets import DatasetManager
+from Training_Process.training_process import TrainingProcess
+from descriptions import welcome_title, welcome_text, interface_menu_about
 
-class MainApp(tk.Tk):
+class MainApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("AutoML-Interface")
+        self.root.geometry("800x600")  # Set main window size
 
-    def __init__(self):
-        super().__init__()
-        self.title("AutoML-Interface")
-        self.geometry("800x600")  # Set main window size
-
-        # Variable to store the selected project
-        self.selected_project = None
-        # Variable to store the selected dataset
-        self.selected_dataset = None
-
-        # Create the menu
+        # Create the menu bar
         self.create_menu_bar()
 
-        # Create the notebook (tab container)
-        self.notebook = ttk.Notebook(self)
-        self.notebook.pack(fill=tk.BOTH, expand=True)
+        # Create the initial window
+        self.create_initial_frame()
 
-        # Create the tabs
-        self.create_tabs()
-    
-    def create_tabs(self):
+    def create_initial_frame(self):
         """
-        Create all the tabs (Projects, Datasets, Preprocess...)
+        Initial frame with 'Train' and 'Predict' options.
         """
-        # Projects tab
-        self.projects_tab = ProjectManager(self.notebook, self)
-        self.notebook.add(self.projects_tab, text="Projects")
+        self.initial_frame = tk.Frame(self.root)
+        self.initial_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Datasets tab
-        self.datasets_tab = DatasetManager(self.notebook, self)
-        self.notebook.add(self.datasets_tab, text="Datasets")
+        # Create the welcome label with a larger and bold font
+        welcome_font = font.Font(family="Helvetica", size=16, weight="bold")
+        welcome_label = tk.Label(self.initial_frame, text=welcome_title, font=welcome_font)
+        welcome_label.pack(pady=(20, 10), anchor="n")  # Positioned at the top
 
-        # Preprocess tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Preprocess")
+        # Add a paragraph below the welcome label
+        paragraph_label = tk.Label(self.initial_frame, text=welcome_text)
+        paragraph_label.pack(pady=(0, 20), anchor="n")  # Positioned below the welcome label
 
-        # Train tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Train")
+        # Create a frame for the buttons to keep them together
+        button_frame = tk.Frame(self.initial_frame)
+        button_frame.pack(expand=True)  # Expand to fill the available space
 
-        # Metrics tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Metrics")
+        # Create the 'Train' button and add it to the button_frame
+        train_button = tk.Button(button_frame, text="Train a model", command=self.training_process, width=20, height=2)
+        train_button.pack(pady=(0, 10))  # Add some space below the Train button
 
-        # Model tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Model")
+        # Create the 'Predict' button and add it to the button_frame
+        predict_button = tk.Button(button_frame, text="Predict new data", command=self.training_process, width=20, height=2)
+        predict_button.pack(pady=(10, 0))  # Add some space above the Predict button
 
-        # Test tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Test")
-
-        # Predict tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Predict")
-
-        # Results tab
-        frame = tk.Frame(self.notebook)
-        self.notebook.add(frame, text="Results")
-
-    def get_selected_project(self):
-        return self.selected_project
-
-    def set_selected_project(self, project):
+    def training_process(self):
         """
-        Set project to work
+        Start the training process.
         """
-        self.selected_project = project
-        self.datasets_tab.load_datasets(self.selected_project)
+        self.initial_frame.pack_forget() # Hide the initial frame
 
-    def get_selected_dataset(self):
-        return self.selected_dataset
+        training_process = TrainingProcess(self.root)
+        training_process.draw_training_tabs()
 
-    def set_selected_dataset(self, dataset):
+    def reset_to_initial_frame(self):
         """
-        Set dataset to work
+        Reset the interface back to the initial frame with 'Train' and 'Predict' options.
         """
-        self.selected_dataset = dataset
+        # Destroy the current initial_frame to ensure it's fully removed
+        self.initial_frame.destroy()
 
-    def update_dataset_tab(self):
-        """
-        Update dataset tab according to the project selected.
-        """
-        for widget in self.datasets_tab.winfo_children():
-            widget.destroy()
-        
-        if self.selected_project:
-            datasets_dir = os.path.join(self.selected_project.path, "Datasets")
-
-            if os.path.exists(datasets_dir) and os.path.isdir(datasets_dir):
-                dataset_listbox = tk.Listbox(self.datasets_tab)
-                dataset_listbox.pack(fill=tk.BOTH, expand=True)
-
-                datasets = os.listdir(datasets_dir)
-                
-                if datasets:
-                    for dataset in datasets:
-                        dataset_listbox.insert(tk.END, dataset)
-                else:
-                    label = tk.Label(self.datasets_tab, text="No datasets found in 'Datasets' folder.")
-                    label.pack(pady=10)
-            else:
-                label = tk.Label(self.datasets_tab, text="Datasets folder does not exist for this project.")
-                label.pack(pady=10)
-        else:
-            label = tk.Label(self.datasets_tab, text="No project selected.")
-            label.pack(pady=10)
+        # Recreate the initial frame
+        self.create_initial_frame()
 
     def create_menu_bar(self):
         """
         Create the menu bar with dropdown options.
         """
-        menu_bar = tk.Menu(self)
-        self.config(menu=menu_bar)
+        menu_bar = tk.Menu(self.root)
+        self.root.config(menu=menu_bar)
+
+        # File menu
+        file_menu = tk.Menu(menu_bar, tearoff=0)
+        menu_bar.add_cascade(label="File", menu=file_menu)
+        file_menu.add_command(label="Reset", command=self.reset_to_initial_frame)
+        file_menu.add_command(label="Train", command=self.training_process)
+        file_menu.add_command(label="Predict", command=self.training_process)
 
         # Help menu
         help_menu = tk.Menu(menu_bar, tearoff=0)
@@ -130,13 +83,13 @@ class MainApp(tk.Tk):
         help_menu.add_command(label="About", command=self.show_about)
 
     def show_about(self):
-        tk.messagebox.showinfo("About", "AutoML-Interface v2.0\nDeveloped by Diego\n2024")
+        messagebox.showinfo("About", interface_menu_about)
 
 
-# Main
 def main():
-    app = MainApp()
-    app.mainloop()
+    root = tk.Tk()
+    MainApp(root)
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
