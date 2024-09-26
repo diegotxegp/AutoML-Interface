@@ -166,6 +166,8 @@ class Ludwig:
     def configuration_to_config(self):
         self.set_features()
         self.set_missing_data()
+        self.set_runtime()
+        self.set_metric()
     
     def set_features(self):
         """Set selected features into the config"""
@@ -198,3 +200,11 @@ class Ludwig:
 
     def set_missing_data(self):
         self.config["preprocessing"]["missing_value_strategy"] = self.configuration.missing_data
+
+    def set_runtime(self):
+        self.config["hyperopt"]["executor"]["time_budget_s"] = self.configuration.runtime
+        self.config["hyperopt"]["executor"]["scheduler"]["max_t"] = self.configuration.runtime
+
+    def set_metric(self):
+        self.config["hyperopt"]["metric"] = self.configuration.metric
+        self.config["hyperopt"]["goal"] = self.configuration.goal

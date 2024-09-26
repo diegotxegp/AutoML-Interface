@@ -90,7 +90,7 @@ class ProjectManager:
         """
         Create a new project along with a brief description.
         """
-        new_project_name = simpledialog.askstring("New Project", "Enter the name of the new project:", parent=self)
+        new_project_name = simpledialog.askstring("New Project", "Enter the name of the new project:", parent=self.frame)
 
         if new_project_name:
             new_project_path = os.path.join(PROJECTS_DIR, new_project_name)
@@ -136,7 +136,7 @@ class ProjectManager:
         """
         Ask a description for the project
         """
-        description_window = tk.Toplevel(self)
+        description_window = tk.Toplevel(self.frame)
         description_window.title("Project Description")
         description_window.geometry("400x300+100+100")  # Open description window at (100, 100) on the screen
 
@@ -156,6 +156,6 @@ class ProjectManager:
         ok_button = tk.Button(button_frame, text="OK", command=on_ok)
         ok_button.pack(pady=10)
 
-        self.wait_window(description_window)  # Wait until description is completed
+        self.frame.wait_window(description_window)  # Wait until description is completed
 
         return getattr(self, 'project_description', '')
