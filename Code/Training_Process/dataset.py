@@ -114,7 +114,7 @@ class DatasetManager:
         )
 
         if path:
-            project = self.training_process.get_selected_project()
+            project = self.training_process.configuration.project
             datasets_dir = os.path.join(project.path, "Datasets")
             
             if not os.path.exists(datasets_dir):
@@ -137,7 +137,7 @@ class DatasetManager:
 
                 messagebox.showinfo("Success", "Dataset added successfully")
 
-                self.load_datasets()
+                self.load_datasets(self.frame)  # Agregar el frame correcto
 
             else:
                 messagebox.showerror("Error", "A dataset with that name already exists.")
@@ -163,7 +163,7 @@ class DatasetManager:
         """
         Ask a description for the dataset.
         """
-        description_window = tk.Toplevel(self.frame)
+        description_window = tk.Toplevel(self.frame)  # El parent debe ser un widget de Tkinter, aquí es self.frame
         description_window.title("Dataset Description")
         description_window.geometry("400x300+100+100")  # Open description window at (100, 100) on the screen
 
@@ -183,6 +183,6 @@ class DatasetManager:
         ok_button = tk.Button(button_frame, text="OK", command=on_ok)
         ok_button.pack(pady=10)
 
-        self.wait_window(description_window)  # Wait until description is completed
+        self.frame.wait_window(description_window)  # Aquí llamamos a wait_window desde self.frame, que es un widget de Tkinter
 
         return getattr(self, 'dataset_description', '')
