@@ -20,6 +20,9 @@ class MainApp:
         """
         Initial frame with 'Train' and 'Predict' options.
         """
+        # Destroy any existing frame to ensure a clean start
+        self.clear_frame()
+
         self.initial_frame = tk.Frame(self.root)
         self.initial_frame.pack(fill=tk.BOTH, expand=True)
 
@@ -48,7 +51,8 @@ class MainApp:
         """
         Start the training process.
         """
-        self.initial_frame.pack_forget() # Hide the initial frame
+        # Clear any existing frames before creating new content
+        self.clear_frame()
 
         training_process = TrainingProcess(self.root)
         training_process.draw_training_tabs()
@@ -57,10 +61,7 @@ class MainApp:
         """
         Reset the interface back to the initial frame with 'Train' and 'Predict' options.
         """
-        # Destroy the current initial_frame to ensure it's fully removed
-        self.initial_frame.destroy()
-
-        # Recreate the initial frame
+        # Clear current frame and recreate the initial frame
         self.create_initial_frame()
 
     def create_menu_bar(self):
@@ -74,8 +75,6 @@ class MainApp:
         file_menu = tk.Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="Reset", command=self.reset_to_initial_frame)
-        file_menu.add_command(label="Train", command=self.training_process)
-        file_menu.add_command(label="Predict", command=self.training_process)
 
         # Help menu
         help_menu = tk.Menu(menu_bar, tearoff=0)
@@ -84,6 +83,15 @@ class MainApp:
 
     def show_about(self):
         messagebox.showinfo("About", interface_menu_about)
+
+    def clear_frame(self):
+        """
+        Destroys any widget or frame inside the root window.
+        """
+        for widget in self.root.winfo_children():
+            if isinstance(widget, tk.Menu):  # Skip menu widget
+                continue
+            widget.destroy()
 
 
 def main():

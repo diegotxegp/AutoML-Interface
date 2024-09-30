@@ -29,7 +29,7 @@ class Summary:
                 f"Missing data: {self.configuration.missing_data}\n"
                 f"Runtime: {self.configuration.runtime}\n"
                 f"Metric: {self.configuration.metric}\n"
-                f"Metric: {self.configuration.timedependable}\n"
+                f"Timedependable: {self.configuration.timedependable}\n"
                 )
 
         # Text widget

@@ -64,12 +64,10 @@ class Ludwig:
         split_df = get_repeatable_train_val_test_split(self.df, self.target, random_seed=42)
 
         auto_train_results = auto_train(
-            dataset=split_df,
+            dataset=self.df,
             target=self.target,
             time_limit_s=7200,
-            tune_for_memory=False,
-            user_config={'hyperopt': {'goal': 'maximize', 'metric': 'accuracy', 'output_feature': f"{self.target}"},
-                'preprocessing': {'split': {'column': 'split', 'type': 'fixed'}}},
+            tune_for_memory=False
         )
 
         self.model = auto_train_results.best_model
@@ -106,8 +104,10 @@ class Ludwig:
         self.model.train(dataset=self.df)
 
     def compare_performance(self):
+        test = r"/home/diegotxe/Visual-Studio/AutoML-Interface/Datasets/Resultados-Ivan/Test/diabetes_test.csv"
+        self.test = self.read_file(test)
         eval_stats, predictions, output_directory = self.model.evaluate(
-            self.split_df,
+            self.test,
             split="full",
             collect_predictions=True,
             collect_overall_stats=True,
@@ -126,8 +126,11 @@ class Ludwig:
         )
 
     def confusion_matrix(self):
+        test = r"/home/diegotxe/Visual-Studio/AutoML-Interface/Datasets/Resultados-Ivan/Test/diabetes_test.csv"
+        self.test = self.read_file(test)
+
         eval_stats, predictions, output_directory = self.model.evaluate(
-            self.split_df,
+            self.test,
             split="full",
             collect_predictions=True,
             collect_overall_stats=True,

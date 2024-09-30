@@ -157,4 +157,7 @@ evaluation_description = """
     * Confusion Matrix: Generates a confusion matrix to evaluate the model.
 """
 
-interface_menu_about = "AutoML-Interface v2.0\nDeveloped by Diego\n(2024)"
+interface_menu_about = """
+Developed by Diego
+University of Cantabria
+2024"""
