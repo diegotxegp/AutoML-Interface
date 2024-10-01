@@ -15,7 +15,6 @@ class Dataset:
         self.name = name
         self.description = description
         self.path = path
-        self.file_format = None  # Completar
         self.related_project = related_project
         self.timestamp = datetime.now()
 

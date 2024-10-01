@@ -96,7 +96,12 @@ class MainApp:
 
 def main():
     root = tk.Tk()
+
+    # Full screen
+    root.attributes('-zoomed', True)
+
     MainApp(root)
+
     root.mainloop()
 
 if __name__ == "__main__":
