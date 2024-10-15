@@ -59,20 +59,29 @@ class Ludwig:
         """
         Automatically trains a model.
         """
-        messagebox.showinfo("Start", "AutoML-Interface starting...")
+        columns = self.df.columns.tolist()
+        self.target = columns[-1] # Last feature is commonly the target
 
-        split_df = get_repeatable_train_val_test_split(self.df, self.target, random_seed=42)
+        #split_df = get_repeatable_train_val_test_split(self.df, self.target, random_seed=42)
 
         auto_train_results = auto_train(
             dataset=self.df,
             target=self.target,
             time_limit_s=7200,
-            tune_for_memory=False
+            tune_for_memory=False,
         )
 
         self.model = auto_train_results.best_model
 
         print("Model trained successfully")
+
+        test = r"/home/diegotxe/Visual-Studio/AutoML-Interface/Datasets/Resultados-Ivan/Test/liver-disorders_test.csv"
+        self.test = self.read_file(test)
+
+        eval_stats, predictions, output_directory = self.model.evaluate(dataset=self.test)
+        print("All Evaluation Metrics:")
+        for metric_name, value in eval_stats.items():
+            print(f"{metric_name}: {value}")
 
     def autoconfig(self):
         """
@@ -104,7 +113,7 @@ class Ludwig:
         self.model.train(dataset=self.df)
 
     def compare_performance(self):
-        test = r"/home/diegotxe/Visual-Studio/AutoML-Interface/Datasets/Resultados-Ivan/Test/diabetes_test.csv"
+        test = r"/home/diegotxe/Visual-Studio/AutoML-Interface/Comparativa-Resultados-Ivan/Datasets/Test/diabetes_test.csv"
         self.test = self.read_file(test)
         eval_stats, predictions, output_directory = self.model.evaluate(
             self.test,
@@ -126,7 +135,7 @@ class Ludwig:
         )
 
     def confusion_matrix(self):
-        test = r"/home/diegotxe/Visual-Studio/AutoML-Interface/Datasets/Resultados-Ivan/Test/diabetes_test.csv"
+        test = r"/home/diegotxe/Visual-Studio/AutoML-Interface/Comparativa-Resultados-Ivan/Datasets/Test/diabetes_test.csv"
         self.test = self.read_file(test)
 
         eval_stats, predictions, output_directory = self.model.evaluate(

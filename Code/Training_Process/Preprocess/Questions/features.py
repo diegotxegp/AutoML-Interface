@@ -64,7 +64,16 @@ class Features:
 
     def description_frame(self, frame):
         description_label = tk.Label(frame, text="Help description")
-        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)        
+        description_label.pack(side=tk.TOP, anchor="w", padx=5, pady=5)
+
+        # Text widget
+        info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
+        info_box.pack(fill='both', expand=True)
+
+        info_box.insert(tk.END, features_help_description)
+
+        # Text editing disabled
+        info_box.config(state=tk.DISABLED)      
 
     def feature_classifier(self, features):
         input_features = {}

@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import scrolledtext
 
 from master_table import preprocess_tab_names
-from descriptions import evaluation_description
+from descriptions import evaluation_help_description
 from utils import split_frame
 
 class Evaluation:
@@ -65,7 +65,7 @@ class Evaluation:
         info_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, width=50, height=15)
         info_box.pack(fill='both', expand=True)
 
-        info_box.insert(tk.END, evaluation_description)
+        info_box.insert(tk.END, evaluation_help_description)
 
         # Text editing disabled
         info_box.config(state=tk.DISABLED)

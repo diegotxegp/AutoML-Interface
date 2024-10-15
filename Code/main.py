@@ -8,7 +8,7 @@ class MainApp:
     def __init__(self, root):
         self.root = root
         self.root.title("AutoML-Interface")
-        self.root.geometry("800x600")  # Set main window size
+        root.attributes('-zoomed', True) # Full screen
 
         # Create the menu bar
         self.create_menu_bar()
@@ -96,9 +96,6 @@ class MainApp:
 
 def main():
     root = tk.Tk()
-
-    # Full screen
-    root.attributes('-zoomed', True)
 
     MainApp(root)
 

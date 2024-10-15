@@ -23,18 +23,19 @@ AFTER READING THIS, PRESS "OK" TO CONTINUE
 
 # Project tab
 project_label_text = "Select a project"
-project_help_description = "You must create a project to allocate all the models in there. Else, select one already created."
+project_help_description = """You need to create a project to store all the datasets, configuration files and generated models. Alternatively, choose an existing one \
+with previously stored data."""
 
 # Dataset tab
 dataset_label_text = "Select a dataset"
-dataset_help_description = "You must add a dataset to train. One copy of this will be saved in the project directory."
+dataset_help_description = """You need to add a new dataset to create a model. Alternatively, choose an already existing one. One copy of this dataset will be saved \
+in the project directory."""
 
 # Mode tab
 mode_description = """
-    * Automatic ML: Automatically trains a model.
+    * Automatic ML: A model is trained automatically from the dataset.
 
-    * Semiautomatic ML: Generates a configuration file from the dataset.
-"""
+    * Semiautomatic ML: A configuration file is generated from the dataset and the help of the user choosing certain parameters."""
 
 # Preprocess tab.
 ## Separator tab.
@@ -59,6 +60,8 @@ separator_help_description = """
 
 ## Missing data
 missing_data_help_description = """
+    Select how to treat missing data.
+
     * fill_with_const: Replaces the missing value with a specific value specified with the fill_value parameter.
 
     * fill_with_mode: Replaces the missing values with the most frequent value in the column.
@@ -77,8 +80,27 @@ missing_data_help_description = """
 ## Features
 features_label_text = "Modify the features to train"
 features_help_description = """
-    * input: Input features.
-    * output: Output features.
+    Manipulate the features for a good training. Select what feature is input, output or null and its type.
+
+    * Input feature types:
+        - binary, number, category, bag, set, sequence, text, vector, audio, date, h3, image, timeseries
+    * Output feature types.
+        - binary, number, category, bag, set, sequence, text, vector
+
+    * Descriptions:
+        - binary: Used for categorical variables with two possible values (e.g., 0/1, true/false).
+        - number: Represents continuous numerical values (e.g., age, income).
+        - category: Used for variables with more than two categories (e.g., product type, color).
+        - bag: Represents unordered collections of words (e.g., keywords in a document).
+        - set: Represents unique, unordered sets of elements (e.g., user interests, tags).
+        - sequence: Ordered sequences of elements where the order matters (e.g., words in a sentence).
+        - text: Used for full text inputs or outputs (e.g., product descriptions).
+        - vector: Numerical vectors, often preprocessed features (e.g., word embeddings).
+        - audio: Audio data, processed to extract features (e.g., voice recordings).
+        - date: Date and time information (e.g., transaction dates).
+        - h3: Encoded geospatial coordinates using the H3 system (e.g., location data).
+        - image: Image data, used as inputs or outputs (e.g., product photos).
+        - timeseries: Sequential data that changes over time (e.g., stock prices).
 """
 
 ## Target
@@ -101,25 +123,32 @@ target_help_description = """
 ## Runtime
 runtime_label_text = "Choose how many seconds to run the training process"
 runtime_help_description = """
-    * The maximum runtime of the model.
+    * Select the maximum runtime to search the best model for the chosen dataset.
 """
 
 ## Metric
 metric_label_text = "Select a metric to evaluate the model"
-metric_description = """
-    * accuracy: The accuracy of the model.
+metric_help_description = """
+    Select a metric to search the best model for the chosen dataset according that metric.
 
-    * hits_at_k: The hits at k of the model.
-
-    * loss: The loss of the model.
+    * accuracy: The proportion of correct predictions over the total number of predictions.
+    * loss: The value that a model is optimizing, representing the error or difference between predicted and actual values.
+    * precision: The proportion of true positive predictions out of all positive predictions.
+    * recall: The proportion of true positive predictions out of all actual positives (also known as sensitivity).
+    * roc_auc: The area under the ROC curve, measuring the model’s ability to distinguish between classes.
+    * specificity: The proportion of true negative predictions out of all actual negatives.
+    * mean_squared_error: The average of the squared differences between predicted and actual values.
+    * mean_absolute_error: The average of the absolute differences between predicted and actual values.
+    * root_mean_squared_error: The square root of the mean of squared differences between predicted and actual values.
+    * root_mean_squared_percentage_error: The square root of the mean squared percentage error, measuring relative prediction error.
+    * the loss: A general term for the function used to compute the error between predictions and ground truth.
+    * hits_at_k: Measures how often the correct result is within the top k predicted results.
     """
 
 ## Time dependable
 timedependable_label_text = "Is your dataset a time-dependable dataset?"
 timedependable_help_description = """
-    * No: This dataset does not depend on time.
-
-    * Yes: This dataset depends on time.
+    Select if your dataset is time-dependable or not.
 """
 
 # Summary tab
@@ -142,17 +171,17 @@ summary_description = """
 
     * Metric: The metric used to evaluate the model.
 
-    * Goal: The goal of the metric.
+    * Goal: The goal of the metric. (Maximize, minimize)
 """
 
 # Train tab
-train_description = """
-    * Train: Trains the model.
+train_help_description = """
+    * Train: Push the button "Train" to train the model.
 """
 
 # Evaluation tab
-evaluation_description = """
-    * Compare Performance: Compares the performance of the model with the original dataset.
+evaluation_help_description = """
+    * Compare Performance: Show the performance of the model with a test dataset.
 
     * Confusion Matrix: Generates a confusion matrix to evaluate the model.
 """
